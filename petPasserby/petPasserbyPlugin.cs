@@ -11,9 +11,9 @@ using QQLite.Framework.Tool;
 
 namespace petPasserby
 {
-    public class mainEntry : QQLite.Framework.SDK.Plugin
+    public class petPasserbyPlugin : QQLite.Framework.SDK.Plugin
     {
-        public mainEntry()
+        public petPasserbyPlugin()
         {
             //插件名
             this.PluginName = "口袋精灵2";
@@ -66,6 +66,11 @@ namespace petPasserby
                 return "机器人授权已到期,请联系作者：" + AuthorQQ.ToString();
             }
 
+            //PluginConfig pc = PluginConfig.Init<PluginConfig>(this, "abc");
+            //pc.IsEncrypt = true;
+            //PluginConfig.GetJosn(this, "QQLite.Plugin.InterfacePlugin");
+            //pc.Save();
+
             this.SDK = new QQClientSDK();
 
             #region 事件订阅
@@ -86,6 +91,7 @@ namespace petPasserby
         /// <returns>null：显示窗口成功，string：错误信息</returns>
         public override string ShowForm()
         {
+            new settingForm(this).ShowDialog();
             return null;
         }
 
