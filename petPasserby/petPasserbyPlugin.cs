@@ -74,7 +74,7 @@ namespace petPasserby
             this.SDK = new QQClientSDK();
 
             #region 事件订阅
-            //this.SDK.ReceiveClusterIM += SDK_ReceiveClusterIM;
+            this.SDK.ReceiveClusterIM += SDK_ReceiveClusterIM; ;
             #endregion
 
             return null;
@@ -108,6 +108,13 @@ namespace petPasserby
         {
             uint uiRobotQQ = Client.QQ;
             return true;
+        }
+        #endregion
+
+        #region 事件处理
+        private void SDK_ReceiveClusterIM(object sender, ClusterIMEventArgs e)
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }
