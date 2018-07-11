@@ -8,6 +8,7 @@ using QQLite.Framework.Event;
 using QQLite.Framework.QQEnum;
 using QQLite.Framework.SDK;
 using QQLite.Framework.Tool;
+using QQLite.Framework.Entity;
 
 namespace petPasserby
 {
@@ -16,11 +17,11 @@ namespace petPasserby
         public petPasserbyPlugin()
         {
             //插件名
-            this.PluginName = "口袋精灵2";
+            this.PluginName = "精灵宝可梦";
             //插件简介
-            this.Description = "口袋精灵2群聊版";
+            this.Description = "精灵宝可梦相关数据的查询";
             //插件说明
-            this.Note = "口袋精灵2群聊版";
+            this.Note = "精灵宝可梦";
             // 插件版本
             this.Version = new Version("1.0.0.1");
             // 插件发布地址
@@ -74,7 +75,7 @@ namespace petPasserby
             this.SDK = new QQClientSDK();
 
             #region 事件订阅
-            this.SDK.ReceiveClusterIM += SDK_ReceiveClusterIM; ;
+            this.SDK.ReceiveClusterIM += SDK_ReceiveClusterIM;
             #endregion
 
             return null;
@@ -114,7 +115,24 @@ namespace petPasserby
         #region 事件处理
         private void SDK_ReceiveClusterIM(object sender, ClusterIMEventArgs e)
         {
-            throw new NotImplementedException();
+            //string messageDisplay = e.SendTime.ToString("yyyy-MM-dd HH:mm:ss:ms") + " " + e.SenderName + "[@QQ](" + e.Sender.ToString() + ")说：" + e.Message;
+            //OnLog(messageDisplay);
+            //string abc = "[@450343225]ヾ(≧O≦)〃嗷~，你说话了！";
+            //abc = PluginExtension.ReplaceVariable(e, abc, true);
+            //OnLog(abc);
+            //SendExtension.SendClusterIM(Client, e.ClusterInfo.ClusterId, abc);
+            ClusterInfo clusterInfo = e.ClusterInfo;
+            if (!clusterInfo.CanSend)
+            {
+                return;
+            }           
+        }
+        #endregion
+
+        #region 功能处理
+        private void connectSqlDb()
+        {
+
         }
         #endregion
     }

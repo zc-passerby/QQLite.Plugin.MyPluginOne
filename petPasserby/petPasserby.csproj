@@ -31,10 +31,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="QQLite.Framework">
-      <HintPath>..\..\InterfacePlugin_2016.06.11\InterfacePlugin\QQLite.Framework.dll</HintPath>
+      <HintPath>..\..\..\各类工具项目\gitHub项目\multipleFunction\QQLite.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>E:\QQLite_2018.07.01.2200\Library\System.Data.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -57,6 +60,9 @@
     <EmbeddedResource Include="settingForm.resx">
       <DependentUpon>settingForm.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
