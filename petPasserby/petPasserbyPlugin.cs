@@ -9,6 +9,8 @@ using QQLite.Framework.QQEnum;
 using QQLite.Framework.SDK;
 using QQLite.Framework.Tool;
 using QQLite.Framework.Entity;
+using QQLite.Framework.Dapper;
+using System.Data;
 
 namespace petPasserby
 {
@@ -72,6 +74,8 @@ namespace petPasserby
             //PluginConfig.GetJosn(this, "QQLite.Plugin.InterfacePlugin");
             //pc.Save();
 
+            connectSqlDb();
+
             this.SDK = new QQClientSDK();
 
             #region 事件订阅
@@ -132,7 +136,17 @@ namespace petPasserby
         #region 功能处理
         private void connectSqlDb()
         {
-
+            string connStr = "Data Source=QQ\\" + DbBase.RobotQQ.ToString() + "\\DataBase\\QQLite.Plugin.52Poke.db;Version=3";
+            DbHelper dbHelper = new DbHelper(connStr);
+            string queryStr = "select Sn, NameZh, ImgUrl from pokemonInfo limit 10";
+            IDataReader dataReader = dbHelper.ExecuteQuery(queryStr);
+            while(dataReader.Read())
+            {
+                string Sn = dataReader.GetString(0);
+                string Name = dataReader.GetString(1);
+                string imgUrl = dataReader.GetString(2);
+                OnLog("\n全国图鉴号：" + Sn + "\n名字：" + Name + "\n形象：" + imgUrl);
+            }
         }
         #endregion
     }
