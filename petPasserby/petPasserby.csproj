@@ -34,7 +34,7 @@
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="QQLite.Framework">
-      <HintPath>F:\QQLite\QQLite.Framework.dll</HintPath>
+      <HintPath>..\..\..\各类工具项目\gitHub项目\multipleFunction\QQLite.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

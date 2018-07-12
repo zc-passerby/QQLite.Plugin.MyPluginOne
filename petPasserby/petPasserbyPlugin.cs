@@ -11,11 +11,14 @@ using QQLite.Framework.Tool;
 using QQLite.Framework.Entity;
 using QQLite.Framework.Dapper;
 using System.Data;
+using System.Text.RegularExpressions;
 
 namespace petPasserby
 {
     public class petPasserbyPlugin : QQLite.Framework.SDK.Plugin
     {
+        //public DbHelper dbHelper = new DbHelper("Data Source=QQ\\" + DbBase.RobotQQ.ToString() + "\\DataBase\\QQLite.Plugin.52Poke.db;Version=3");
+
         public petPasserbyPlugin()
         {
             //插件名
@@ -126,27 +129,64 @@ namespace petPasserby
             //OnLog(abc);
             //SendExtension.SendClusterIM(Client, e.ClusterInfo.ClusterId, abc);
             ClusterInfo clusterInfo = e.ClusterInfo;
-            if (!clusterInfo.CanSend)
+            if (!clusterInfo.CanSend && e.Cancel)
             {
+                OnLog("本群未启用该功能或已被其他组件使用");
                 return;
-            }           
+            }
+            string message = Regex.Replace(e.Message, "[\f\n\r\t\v\\s+]", "");
+            OnLog(message);
+            Regex r = new Regex("^查询宝可梦");
+            if(r.IsMatch(message))
+            {
+                int pokeId = r.Replace(message, "").ToInt();
+                string strPokeId = pokeId.ToString();
+                if(pokeId > 0 && pokeId < 10)
+                {
+                    strPokeId = "00" + strPokeId;
+                }
+                else if(pokeId >=10 && pokeId < 100)
+                {
+                    strPokeId = "0" + strPokeId;
+                }
+                else if(pokeId > 807)
+                {
+                    string sendStr = "请使用 查询宝可梦 宝可梦编号(1-807)";
+                    SendExtension.SendClusterIM(Client, e.ClusterInfo.ClusterId, PluginExtension.ReplaceVariable(e, sendStr, true));
+                    e.Cancel = true;
+                    return;
+                }
+                DbHelper dbHelper = new DbHelper("Data Source=QQ\\" + DbBase.RobotQQ.ToString() + "\\DataBase\\QQLite.Plugin.52Poke.db;Version=3");
+                string queryString = "select Sn, NameZh, ImgUrl from pokemonInfo where Sn='" + strPokeId + "';";
+                IDataReader dataReader = dbHelper.ExecuteQuery(queryString);
+                while(dataReader.Read())
+                {
+                    string Sn = dataReader.GetString(0);
+                    string Name = dataReader.GetString(1);
+                    string imgUrl = "[Image]" + dataReader.GetString(2) + "[/Image]";
+                    string sendStr = imgUrl + "\n宝可梦名字：" + Name + "\n全国图鉴编号：" + Sn;
+                    SendExtension.SendClusterIM(Client, e.ClusterInfo.ClusterId, PluginExtension.ReplaceVariable(e, sendStr, true));
+                }
+                e.Cancel = true;
+                return;
+            }
         }
         #endregion
 
         #region 功能处理
         private void connectSqlDb()
         {
-            string connStr = "Data Source=QQ\\" + DbBase.RobotQQ.ToString() + "\\DataBase\\QQLite.Plugin.52Poke.db;Version=3";
-            DbHelper dbHelper = new DbHelper(connStr);
-            string queryStr = "select Sn, NameZh, ImgUrl from pokemonInfo limit 10";
-            IDataReader dataReader = dbHelper.ExecuteQuery(queryStr);
-            while(dataReader.Read())
-            {
-                string Sn = dataReader.GetString(0);
-                string Name = dataReader.GetString(1);
-                string imgUrl = dataReader.GetString(2);
-                OnLog("\n全国图鉴号：" + Sn + "\n名字：" + Name + "\n形象：" + imgUrl);
-            }
+            //string connStr = "Data Source=QQ\\" + DbBase.RobotQQ.ToString() + "\\DataBase\\QQLite.Plugin.52Poke.db;Version=3";
+            //DbHelper dbHelper = new DbHelper(connStr);
+            //string queryStr = "select Sn, NameZh, ImgUrl from pokemonInfo limit 10";
+            //IDataReader dataReader = dbHelper.ExecuteQuery(queryStr);
+            //while(dataReader.Read())
+            //{
+            //    string Sn = dataReader.GetString(0);
+            //    string Name = dataReader.GetString(1);
+            //    string imgUrl = dataReader.GetString(2);
+            //    OnLog("\n全国图鉴号：" + Sn + "\n名字：" + Name + "\n形象：" + imgUrl);
+            //}
         }
         #endregion
     }
