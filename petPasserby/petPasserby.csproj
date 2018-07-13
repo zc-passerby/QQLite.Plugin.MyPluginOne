@@ -33,8 +33,9 @@
     <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="QQLite.Framework">
-      <HintPath>..\..\..\各类工具项目\gitHub项目\multipleFunction\QQLite.Framework.dll</HintPath>
+    <Reference Include="QQLite.Framework, Version=2018.5.22.2200, Culture=neutral, PublicKeyToken=c5600aeef1746a03, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\QQLite.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

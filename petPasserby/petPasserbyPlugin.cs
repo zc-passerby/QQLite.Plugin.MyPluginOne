@@ -17,7 +17,7 @@ namespace petPasserby
 {
     public class petPasserbyPlugin : QQLite.Framework.SDK.Plugin
     {
-        //public DbHelper dbHelper = new DbHelper("Data Source=QQ\\" + DbBase.RobotQQ.ToString() + "\\DataBase\\QQLite.Plugin.52Poke.db;Version=3");
+        public DbHelper dbHelper;
 
         public petPasserbyPlugin()
         {
@@ -37,6 +37,8 @@ namespace petPasserby
             this.AuthorUrl = "请期待";
             // 开发者QQ
             this.AuthorQQ = 450343225;
+            // 连接sqlite数据库
+            //this.dbHelper = new DbHelper("Data Source=QQ\\" + DbBase.RobotQQ.ToString() + "\\DataBase\\QQLite.Plugin.52Poke.db;Version=3");
         }
 
         #region 插件执行时必要的函数（overwrite）
@@ -156,7 +158,7 @@ namespace petPasserby
                     e.Cancel = true;
                     return;
                 }
-                DbHelper dbHelper = new DbHelper("Data Source=QQ\\" + DbBase.RobotQQ.ToString() + "\\DataBase\\QQLite.Plugin.52Poke.db;Version=3");
+                //DbHelper dbHelper = new DbHelper("Data Source=QQ\\" + DbBase.RobotQQ.ToString() + "\\DataBase\\QQLite.Plugin.52Poke.db;Version=3");
                 string queryString = "select Sn, NameZh, ImgUrl from pokemonInfo where Sn='" + strPokeId + "';";
                 IDataReader dataReader = dbHelper.ExecuteQuery(queryString);
                 while(dataReader.Read())
@@ -176,6 +178,7 @@ namespace petPasserby
         #region 功能处理
         private void connectSqlDb()
         {
+            dbHelper = new DbHelper("Data Source=QQ\\" + DbBase.RobotQQ.ToString() + "\\DataBase\\QQLite.Plugin.52Poke.db;Version=3");
             //string connStr = "Data Source=QQ\\" + DbBase.RobotQQ.ToString() + "\\DataBase\\QQLite.Plugin.52Poke.db;Version=3";
             //DbHelper dbHelper = new DbHelper(connStr);
             //string queryStr = "select Sn, NameZh, ImgUrl from pokemonInfo limit 10";

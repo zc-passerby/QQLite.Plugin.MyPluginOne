@@ -10,37 +10,28 @@ namespace petPasserby
 {
     public class DbHelper
     {
-        private DbBase dbBase;
         private IDbConnection dbConn;
         private IDbCommand dbCommand;
         private IDataReader dataReader;
 
-        public DbHelper(string connectionString)
-        {
-            dbBase = new DbBase(connectionString);
-            dbConn = dbBase.Conn;
-        }
+        private static bool bNeedToResetConnection = true;
+        private static string connectionString = string.Empty;  //连接字符串
 
-        public void CloseConnection()
-        {
-            if (dbCommand != null)
-                dbCommand.Cancel();
-            dbCommand = null;
-            if (dataReader != null)
-                dataReader.Close();
-            dataReader = null;
-            if (dbConn != null)
-                dbConn.Close();
-            dbConn = null;
-        }
+        #region 私有构造函数和方法
+        private DbHelper() { }  //私有构造函数，该函数不使用实例
 
-        public IDataReader ExecuteQuery(string queryString)
+        
+        #endregion 私有构造函数和方法结束
+        /// <summary>
+        /// 根据数据源、密码、版本号设置Sqlite连接字符串。
+        /// </summary>
+        /// <param name="datasource">数据源。</param>
+        /// <param name="password">密码。</param>
+        /// <param name="version">版本号（缺省为3）。</param>
+        public static void setSqlLiteConnectionString(string dataSource, string password = "", int version = 3)
         {
-            dbCommand = dbConn.CreateCommand();
-            dbCommand.CommandText = queryString;
-            dataReader = dbCommand.ExecuteReader();
-
-            return dataReader;
+            bNeedToResetConnection = true;
+            connectionString = string.Format("Data Source={0};Version={1};password={2}", dataSource, version, password);
         }
     }
 }

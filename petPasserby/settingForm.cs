@@ -24,14 +24,25 @@ namespace petPasserby
 
         private void initData()
         {
+            ListViewItem lvi;
+            //先添加0（好友设置）和10000（默认群设置）
+            lvi = new ListViewItem("0");
+            lvi.SubItems.Add("好友设置");
+            lvi.SubItems.Add("开");
+            lvi = listView_clusterList.Items.Add(lvi);
+            lvi = new ListViewItem("10000");
+            lvi.SubItems.Add("默认群设置");
+            lvi.SubItems.Add("开");
+            lvi = listView_clusterList.Items.Add(lvi);
             //获取群列表
             ClusterList clusterlist = Plugin.Client.ClusterList;
             foreach(KeyValuePair<uint, ClusterInfo> kv in clusterlist)
             {
                 ClusterInfo c = kv.Value;
-                ListViewItem lvi = listView_clusterList.Items.Add(c.ClusterId.ToString());
+                lvi = new ListViewItem(c.ClusterId.ToString());
                 lvi.SubItems.Add(c.Name);
                 lvi.SubItems.Add("关");
+                lvi = listView_clusterList.Items.Add(lvi);
             }
         }
 
