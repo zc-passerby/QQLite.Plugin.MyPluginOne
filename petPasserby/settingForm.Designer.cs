@@ -43,6 +43,7 @@
             // chCulsterId
             // 
             this.chCulsterId.Text = "群号";
+            this.chCulsterId.Width = 59;
             // 
             // chClusterName
             // 

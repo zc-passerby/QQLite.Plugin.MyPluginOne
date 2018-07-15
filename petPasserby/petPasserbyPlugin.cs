@@ -17,8 +17,6 @@ namespace petPasserby
 {
     public class petPasserbyPlugin : QQLite.Framework.SDK.Plugin
     {
-        public DbHelper dbHelper;
-
         public petPasserbyPlugin()
         {
             //插件名
@@ -79,7 +77,9 @@ namespace petPasserby
             //PluginConfig.GetJosn(this, "QQLite.Plugin.InterfacePlugin");
             //pc.Save();
 
-            connectSqlDb();
+            string dataSource = "QQ\\" + DbBase.RobotQQ.ToString() + "\\DataBase\\QQLite.Plugin.52Poke.db";
+            DbHelper.setSqlLiteConnection(dataSource);
+            OnLog("set connectionstr successful:" + DbHelper.getConnectionStr());
 
             this.SDK = new QQClientSDK();
 
@@ -94,6 +94,7 @@ namespace petPasserby
         /// <returns>null：停止插件成功，string：错误信息</returns>
         public override string Stop()
         {
+            DbHelper.closeConnection();
             return null;
         }
 
@@ -160,7 +161,9 @@ namespace petPasserby
                 }
                 //DbHelper dbHelper = new DbHelper("Data Source=QQ\\" + DbBase.RobotQQ.ToString() + "\\DataBase\\QQLite.Plugin.52Poke.db;Version=3");
                 string queryString = "select Sn, NameZh, ImgUrl from pokemonInfo where Sn='" + strPokeId + "';";
-                IDataReader dataReader = dbHelper.ExecuteQuery(queryString);
+                IDataReader dataReader = DbHelper.ExecuteReader(queryString);
+                OnLog(queryString);
+                OnLog(dataReader.FieldCount.ToString());
                 while(dataReader.Read())
                 {
                     string Sn = dataReader.GetString(0);
@@ -176,21 +179,7 @@ namespace petPasserby
         #endregion
 
         #region 功能处理
-        private void connectSqlDb()
-        {
-            dbHelper = new DbHelper("Data Source=QQ\\" + DbBase.RobotQQ.ToString() + "\\DataBase\\QQLite.Plugin.52Poke.db;Version=3");
-            //string connStr = "Data Source=QQ\\" + DbBase.RobotQQ.ToString() + "\\DataBase\\QQLite.Plugin.52Poke.db;Version=3";
-            //DbHelper dbHelper = new DbHelper(connStr);
-            //string queryStr = "select Sn, NameZh, ImgUrl from pokemonInfo limit 10";
-            //IDataReader dataReader = dbHelper.ExecuteQuery(queryStr);
-            //while(dataReader.Read())
-            //{
-            //    string Sn = dataReader.GetString(0);
-            //    string Name = dataReader.GetString(1);
-            //    string imgUrl = dataReader.GetString(2);
-            //    OnLog("\n全国图鉴号：" + Sn + "\n名字：" + Name + "\n形象：" + imgUrl);
-            //}
-        }
+        
         #endregion
     }
 }
