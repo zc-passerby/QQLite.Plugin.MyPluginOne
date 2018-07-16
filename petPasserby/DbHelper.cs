@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data;
 
+using QQLite.Framework;
 using QQLite.Framework.Dapper;
 
 namespace petPasserby
@@ -61,7 +62,7 @@ namespace petPasserby
         {
             if(dbConn.State != ConnectionState.Open)
                 dbConn.Open();
-            dbCommand.Parameters.Clear();
+            //dbCommand.Parameters.Clear();
             dbCommand.CommandText = cmdText;
             dbCommand.CommandType = CommandType.Text;
             dbCommand.CommandTimeout = 30;
@@ -90,7 +91,16 @@ namespace petPasserby
                         PrepareCommand(dbConn, dbCommand, sql);
                         affectedRows = dbCommand.ExecuteNonQuery();
                     }
-                    catch (Exception) { throw; }
+                    catch (Exception e)
+                    {
+                        QQLog.WriteLog(DbBase.RobotQQ, "ExecuteNonQuery Error begin");
+                        QQLog.WriteLog(DbBase.RobotQQ, e.Message);
+                        QQLog.WriteLog(DbBase.RobotQQ, e.Source);
+                        QQLog.WriteLog(DbBase.RobotQQ, e.TargetSite.ToString());
+                        QQLog.WriteLog(DbBase.RobotQQ, e.StackTrace);
+                        QQLog.WriteLog(DbBase.RobotQQ, "ExecuteNonQuery Error end");
+                        throw;
+                    }
                 }
             }
             return affectedRows;
@@ -124,7 +134,17 @@ namespace petPasserby
                             }
                             Tran.Commit();
                         }
-                        catch (Exception) { Tran.Rollback(); throw; }
+                        catch (Exception e)
+                        {
+                            QQLog.WriteLog(DbBase.RobotQQ, "ExecuteNonQueryBatch Error begin");
+                            QQLog.WriteLog(DbBase.RobotQQ, e.Message);
+                            QQLog.WriteLog(DbBase.RobotQQ, e.Source);
+                            QQLog.WriteLog(DbBase.RobotQQ, e.TargetSite.ToString());
+                            QQLog.WriteLog(DbBase.RobotQQ, e.StackTrace);
+                            QQLog.WriteLog(DbBase.RobotQQ, "ExecuteNonQueryBatch Error end");
+                            Tran.Rollback();
+                            throw;
+                        }
                     }
                 }
             }
@@ -149,7 +169,16 @@ namespace petPasserby
                         result = dbCommand.ExecuteScalar();
                         return result;
                     }
-                    catch(Exception) { throw; }
+                    catch(Exception e)
+                    {
+                        QQLog.WriteLog(DbBase.RobotQQ, "ExecuteScalar Error begin");
+                        QQLog.WriteLog(DbBase.RobotQQ, e.Message);
+                        QQLog.WriteLog(DbBase.RobotQQ, e.Source);
+                        QQLog.WriteLog(DbBase.RobotQQ, e.TargetSite.ToString());
+                        QQLog.WriteLog(DbBase.RobotQQ, e.StackTrace);
+                        QQLog.WriteLog(DbBase.RobotQQ, "ExecuteScalar Error end");
+                        throw;
+                    }
                 }
             }
         }
@@ -170,7 +199,16 @@ namespace petPasserby
                 dt.Load(dbReader);
                 return dt;
             }
-            catch (Exception) { throw; }
+            catch (Exception e)
+            {
+                QQLog.WriteLog(DbBase.RobotQQ, "ExecuteQuery Error begin");
+                QQLog.WriteLog(DbBase.RobotQQ, e.Message);
+                QQLog.WriteLog(DbBase.RobotQQ, e.Source);
+                QQLog.WriteLog(DbBase.RobotQQ, e.TargetSite.ToString());
+                QQLog.WriteLog(DbBase.RobotQQ, e.StackTrace);
+                QQLog.WriteLog(DbBase.RobotQQ, "ExecuteQuery Error end");
+                throw;
+            }
         }
 
         /// <summary> 
@@ -201,7 +239,16 @@ namespace petPasserby
                 PrepareCommand(dbConn, dbCommand, sql);//, parameters);
                 return dbCommand.ExecuteReader();
             }
-            catch (Exception) { throw; }
+            catch (Exception e)
+            {
+                QQLog.WriteLog(DbBase.RobotQQ, "ExecuteReader Error begin");
+                QQLog.WriteLog(DbBase.RobotQQ, e.Message);
+                QQLog.WriteLog(DbBase.RobotQQ, e.Source);
+                QQLog.WriteLog(DbBase.RobotQQ, e.TargetSite.ToString());
+                QQLog.WriteLog(DbBase.RobotQQ, e.StackTrace);
+                QQLog.WriteLog(DbBase.RobotQQ, "ExecuteReader Error end");
+                throw;
+            }
         }
     }
 }
