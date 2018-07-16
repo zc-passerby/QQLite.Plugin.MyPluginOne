@@ -172,6 +172,16 @@ namespace petPasserby
                     string sendStr = imgUrl + "\n宝可梦名字：" + Name + "\n全国图鉴编号：" + Sn;
                     SendExtension.SendClusterIM(Client, e.ClusterInfo.ClusterId, PluginExtension.ReplaceVariable(e, sendStr, true));
                 }
+                /* 使用DataTable
+                DataTable dt = DbHelper.ExecuteQuery(queryString);
+                foreach(DataRow row in dt.Rows)
+                {
+                    string Sn = row["Sn"].ToString();
+                    string Name = row["NameZh"].ToString();
+                    string imgUrl = row["ImgUrl"].ToString();
+                    OnLog(Sn + " " + Name + " " + imgUrl);
+                }
+                */
                 e.Cancel = true;
                 return;
             }

@@ -138,6 +138,7 @@ namespace petPasserby
         /// <exception cref="Exception"></exception>
         public static object ExecuteScalar(string sql)//, params IDbDataParameter[] parameters)
         {
+            object result = new object();
             using (IDbConnection dbConn = new DbBase(connectionString).Conn)
             {
                 using (IDbCommand dbCommand = dbConn.CreateCommand())
@@ -145,7 +146,8 @@ namespace petPasserby
                     try
                     {
                         PrepareCommand(dbConn, dbCommand, sql);//, parameters);
-                        return dbCommand.ExecuteScalar();
+                        result = dbCommand.ExecuteScalar();
+                        return result;
                     }
                     catch(Exception) { throw; }
                 }
@@ -180,18 +182,26 @@ namespace petPasserby
         /// <exception cref="Exception"></exception>
         public static IDataReader ExecuteReader(string sql)//, params IDbDataParameter[] parameters)
         {
-            using (IDbConnection dbConn = new DbBase(connectionString).Conn)
+            //using (IDbConnection dbConn = new DbBase(connectionString).Conn)
+            //{
+            //    using (IDbCommand dbCommand = dbConn.CreateCommand())
+            //    {
+            //      try
+            //        {
+            //            PrepareCommand(dbConn, dbCommand, sql);//, parameters);
+            //            return dbCommand.ExecuteReader();
+            //        }
+            //        catch(Exception) { throw; }
+            //    }
+            //}
+            IDbConnection dbConn = new DbBase(connectionString).Conn;
+            IDbCommand dbCommand = dbConn.CreateCommand();
+            try
             {
-                using (IDbCommand dbCommand = dbConn.CreateCommand())
-                {
-                    try
-                    {
-                        PrepareCommand(dbConn, dbCommand, sql);//, parameters);
-                        return dbCommand.ExecuteReader();
-                    }
-                    catch(Exception) { throw; }
-                }
+                PrepareCommand(dbConn, dbCommand, sql);//, parameters);
+                return dbCommand.ExecuteReader();
             }
+            catch (Exception) { throw; }
         }
     }
 }
