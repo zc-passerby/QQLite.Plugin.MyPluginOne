@@ -79,7 +79,10 @@ namespace petPasserby
 
             string dataSource = "QQ\\" + DbBase.RobotQQ.ToString() + "\\DataBase\\QQLite.Plugin.52Poke.db";
             DbHelper.setSqlLiteConnection(dataSource);
-            OnLog("set connectionstr successful:" + DbHelper.getConnectionStr());
+            //OnLog("set connectionstr successful:" + DbHelper.getConnectionStr());
+
+            string LogFilePath = "./pokemonLog.txt";
+            QQLog.WriteLogFile = LogFilePath;
 
             this.SDK = new QQClientSDK();
 
