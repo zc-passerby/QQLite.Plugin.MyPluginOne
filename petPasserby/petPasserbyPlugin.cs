@@ -135,7 +135,7 @@ namespace petPasserby
             //OnLog(abc);
             //SendExtension.SendClusterIM(Client, e.ClusterInfo.ClusterId, abc);
             ClusterInfo clusterInfo = e.ClusterInfo;
-            if (!clusterInfo.CanSend && e.Cancel)
+            if (!clusterInfo.CanSend || e.Cancel)
             {
                 OnLog("本群未启用该功能或已被其他组件使用");
                 return;
