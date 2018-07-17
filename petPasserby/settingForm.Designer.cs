@@ -1,4 +1,6 @@
-﻿namespace petPasserby
+﻿using System.Windows.Forms;
+
+namespace petPasserby
 {
     partial class settingForm
     {
@@ -43,11 +45,12 @@
             // chCulsterId
             // 
             this.chCulsterId.Text = "群号";
-            this.chCulsterId.Width = 59;
+            this.chCulsterId.Width = 80;
             // 
             // chClusterName
             // 
             this.chClusterName.Text = "群名称";
+            this.chClusterName.Width = 80;
             // 
             // chClusterSwitch
             // 
@@ -86,11 +89,11 @@
             this.listView_clusterList.GridLines = true;
             this.listView_clusterList.Location = new System.Drawing.Point(6, 6);
             this.listView_clusterList.Name = "listView_clusterList";
-            this.listView_clusterList.Size = new System.Drawing.Size(220, 378);
+            this.listView_clusterList.Size = new System.Drawing.Size(240, 378);
             this.listView_clusterList.TabIndex = 0;
             this.listView_clusterList.UseCompatibleStateImageBehavior = false;
             this.listView_clusterList.View = System.Windows.Forms.View.Details;
-            this.listView_clusterList.SelectedIndexChanged += new System.EventHandler(this.listView_clusterList_SelectedIndexChanged);
+            this.listView_clusterList.DoubleClick += new System.EventHandler(this.listView_clusterList_DoubleClick);
             // 
             // tab_CmdSetting
             // 

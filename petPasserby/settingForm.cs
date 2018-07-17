@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+using QQLite.Framework;
+using QQLite.Framework.Dapper;
 using QQLite.Framework.Entity;
 
 namespace petPasserby
@@ -74,9 +76,48 @@ namespace petPasserby
             }
         }
 
-        private void listView_clusterList_SelectedIndexChanged(object sender, EventArgs e)
+        private void listView_clusterList_DoubleClick(object sender, EventArgs e)
         {
-
+            ListViewItem item = listView_clusterList.FocusedItem;
+            string clusterId = item.SubItems[0].Text;
+            string SelectSql = "select IsEnabled from GroupConfig where GroupId='" + clusterId + "';";
+            object clusterSwitch = DbHelper.ExecuteScalar(SelectSql);
+            if(null != clusterSwitch)
+            {
+                string updateSql = "update GroupConfig set IsEnabled={0} where GroupId='{1}';";
+                if (clusterSwitch.ToString() == "0")
+                {
+                    updateSql = string.Format(updateSql, 1, clusterId);
+                    item.SubItems[2].Text = "开";
+                }
+                else
+                {
+                    updateSql = string.Format(updateSql, 0, clusterId);
+                    item.SubItems[2].Text = "关";
+                }
+                if (DbHelper.ExecuteNonQuery(updateSql) != 1)
+                {
+                    Plugin.OnLog("update Failed...");
+                }
+            }
+            else
+            {
+                string insertSql = "insert into GroupConfig (GroupId,IsEnabled) values('{0}',{1});";
+                if (clusterId == "0" || clusterId == "10000")
+                {
+                    insertSql = string.Format(insertSql, clusterId, 0);
+                    item.SubItems[2].Text = "关";
+                }
+                else
+                {
+                    insertSql = string.Format(insertSql, clusterId, 1);
+                    item.SubItems[2].Text = "开";
+                }
+                if (DbHelper.ExecuteNonQuery(insertSql) != 1)
+                {
+                    Plugin.OnLog("insert Failed...");
+                }
+            }
         }
     }
 }
