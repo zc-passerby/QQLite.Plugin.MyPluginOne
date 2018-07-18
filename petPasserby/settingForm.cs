@@ -80,42 +80,36 @@ namespace petPasserby
         {
             ListViewItem item = listView_clusterList.FocusedItem;
             string clusterId = item.SubItems[0].Text;
-            string SelectSql = "select IsEnabled from GroupConfig where GroupId='" + clusterId + "';";
-            object clusterSwitch = DbHelper.ExecuteScalar(SelectSql);
-            if(null != clusterSwitch)
+            string clusterSwitch = DbHandler.getClusterIsEnabled(clusterId);
+            if(clusterSwitch == "0")
             {
-                string updateSql = "update GroupConfig set IsEnabled={0} where GroupId='{1}';";
-                if (clusterSwitch.ToString() == "0")
-                {
-                    updateSql = string.Format(updateSql, 1, clusterId);
+                if (DbHandler.setClusterIsEnabled(clusterId, 1))
                     item.SubItems[2].Text = "开";
-                }
                 else
-                {
-                    updateSql = string.Format(updateSql, 0, clusterId);
+                    Plugin.OnLog(clusterId + " setClusterIsEnabled failed...");
+            }
+            else if(clusterSwitch == "1")
+            {
+                if (DbHandler.setClusterIsEnabled(clusterId, 0))
                     item.SubItems[2].Text = "关";
-                }
-                if (DbHelper.ExecuteNonQuery(updateSql) != 1)
-                {
-                    Plugin.OnLog("update Failed...");
-                }
+                else
+                    Plugin.OnLog(clusterId + " setClusterIsEnabled failed...");
             }
             else
             {
-                string insertSql = "insert into GroupConfig (GroupId,IsEnabled) values('{0}',{1});";
                 if (clusterId == "0" || clusterId == "10000")
                 {
-                    insertSql = string.Format(insertSql, clusterId, 0);
-                    item.SubItems[2].Text = "关";
+                    if(DbHandler.addNewGroupInfo(clusterId, 0))
+                        item.SubItems[2].Text = "关";
+                    else
+                        Plugin.OnLog(clusterId + " add new group info failed...");
                 }
                 else
                 {
-                    insertSql = string.Format(insertSql, clusterId, 1);
-                    item.SubItems[2].Text = "开";
-                }
-                if (DbHelper.ExecuteNonQuery(insertSql) != 1)
-                {
-                    Plugin.OnLog("insert Failed...");
+                    if (DbHandler.addNewGroupInfo(clusterId, 1))
+                        item.SubItems[2].Text = "开";
+                    else
+                        Plugin.OnLog(clusterId + " add new group info failed...");
                 }
             }
         }

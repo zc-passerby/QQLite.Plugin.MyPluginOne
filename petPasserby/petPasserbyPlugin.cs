@@ -167,8 +167,8 @@ namespace petPasserby
                     e.Cancel = true;
                     return;
                 }
-                //DbHelper dbHelper = new DbHelper("Data Source=QQ\\" + DbBase.RobotQQ.ToString() + "\\DataBase\\QQLite.Plugin.52Poke.db;Version=3");
-                string queryString = "select Sn, NameZh, ImgUrl from pokemonInfo where Sn='" + strPokeId + "';";
+                string queryString = "select * from pokemonInfo where Sn='" + strPokeId + "';";
+                /* 使用IDataReader
                 IDataReader dataReader = DbHelper.ExecuteReader(queryString);
                 OnLog(queryString);
                 OnLog(dataReader.FieldCount.ToString());
@@ -180,16 +180,37 @@ namespace petPasserby
                     string sendStr = imgUrl + "\n宝可梦名字：" + Name + "\n全国图鉴编号：" + Sn;
                     SendExtension.SendClusterIM(Client, e.ClusterInfo.ClusterId, PluginExtension.ReplaceVariable(e, sendStr, true));
                 }
-                /* 使用DataTable
+                */
+                /* 使用DataTable */
                 DataTable dt = DbHelper.ExecuteQuery(queryString);
                 foreach(DataRow row in dt.Rows)
                 {
-                    string Sn = row["Sn"].ToString();
-                    string Name = row["NameZh"].ToString();
-                    string imgUrl = row["ImgUrl"].ToString();
-                    OnLog(Sn + " " + Name + " " + imgUrl);
+                    string Sn = row["Sn"].ToString();                           //全国图鉴
+                    string NameZh = row["NameZh"].ToString();                   //中文名
+                    string NameJp = row["NameJp"].ToString();                   //日文名
+                    string NameEn = row["NameEn"].ToString();                   //英文名
+                    string imgUrl = row["ImgUrl"].ToString();                   //图片Url
+                    string Attribute = row["Attribute"].ToString();             //属性
+                    string pokeClass = row["Class"].ToString();                 //种类
+                    string Feature = row["Feature"].ToString();                 //普通特性
+                    string HideFeature = row["HideFeature"].ToString();         //隐藏特性
+                    string HP = row["HP"].ToString();                           //种族值HP
+                    string Attack = row["Attack"].ToString();                   //种族值攻击
+                    string Defense = row["Defense"].ToString();                 //种族值防御
+                    string SpecialAttack = row["SpecialAttack"].ToString();     //种族值特攻
+                    string SpecialDefense = row["SpecialDefense"].ToString();   //种族值特防
+                    string Speed = row["Speed"].ToString();                     //种族值速度
+                    string sendStr = "[Image]{0}[/Image]\n" +
+                        "宝可梦名字：{1} {2} {3}\n" +
+                        "全国图鉴编号：{4}\n属性：{5}\n分类：{6}\n" +
+                        "特性：{7}\n隐藏特性：{8}\n" +
+                        "种族值：\n" +
+                        "HP:{9} 攻击:{10} 防御:{11} 特攻:{12} 特防:{13} 速度:{14}";
+                    sendStr = string.Format(sendStr, imgUrl, NameZh, NameJp, NameEn, Sn,
+                                            Attribute, pokeClass, Feature, HideFeature,
+                                            HP, Attack, Defense, SpecialAttack, SpecialDefense, Speed);
+                    SendExtension.SendClusterIM(Client, e.ClusterInfo.ClusterId, PluginExtension.ReplaceVariable(e, sendStr, true));
                 }
-                */
                 e.Cancel = true;
                 return;
             }
