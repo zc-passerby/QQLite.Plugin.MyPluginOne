@@ -128,6 +128,11 @@ namespace petPasserby
         #region 事件处理
         private void SDK_ReceiveClusterIM(object sender, ClusterIMEventArgs e)
         {
+            if (e.Cancel)
+            {
+                OnLog("已被其他插件使用，该插件不再处理");
+                return;
+            }
             //string messageDisplay = e.SendTime.ToString("yyyy-MM-dd HH:mm:ss:ms") + " " + e.SenderName + "[@QQ](" + e.Sender.ToString() + ")说：" + e.Message;
             //OnLog(messageDisplay);
             //string abc = "[@450343225]ヾ(≧O≦)〃嗷~，你说话了！";
@@ -135,9 +140,9 @@ namespace petPasserby
             //OnLog(abc);
             //SendExtension.SendClusterIM(Client, e.ClusterInfo.ClusterId, abc);
             ClusterInfo clusterInfo = e.ClusterInfo;
-            if (!clusterInfo.CanSend || e.Cancel)
+            if (!clusterInfo.CanSend || DbHandler.getClusterIsEnabled(clusterInfo.ClusterId.ToString()) != "1")
             {
-                OnLog("本群未启用该功能或已被其他组件使用");
+                OnLog("本群未启用该功能");
                 return;
             }
             string message = Regex.Replace(e.Message, "[\f\n\r\t\v\\s+]", "");
@@ -155,7 +160,7 @@ namespace petPasserby
                 {
                     strPokeId = "0" + strPokeId;
                 }
-                else if(pokeId > 807)
+                else if(pokeId > 807 || pokeId <= 0)
                 {
                     string sendStr = "请使用 查询宝可梦 宝可梦编号(1-807)";
                     SendExtension.SendClusterIM(Client, e.ClusterInfo.ClusterId, PluginExtension.ReplaceVariable(e, sendStr, true));
