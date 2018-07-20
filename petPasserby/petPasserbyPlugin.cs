@@ -35,8 +35,6 @@ namespace petPasserby
             this.AuthorUrl = "请期待";
             // 开发者QQ
             this.AuthorQQ = 450343225;
-            // 连接sqlite数据库
-            //this.dbHelper = new DbHelper("Data Source=QQ\\" + DbBase.RobotQQ.ToString() + "\\DataBase\\QQLite.Plugin.52Poke.db;Version=3");
         }
 
         #region 插件执行时必要的函数（overwrite）
