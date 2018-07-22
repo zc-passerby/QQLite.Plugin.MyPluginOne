@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using QQLite.Framework;
+using QQLite.Framework.SDK;
 using QQLite.Framework.Dapper;
 using QQLite.Framework.Entity;
 
@@ -22,6 +23,7 @@ namespace petPasserby
             this.Icon = QQLite.Framework.License.SoftIcon;
             this.Plugin = plugin;
             initClustListData();
+            initCmdListData();
         }
 
         private void initClustListData()
@@ -73,7 +75,18 @@ namespace petPasserby
             }
         }
 
-
+        private void initCmdListData()
+        {
+            /*petPasserbyConfig conf = PluginConfig.Init<petPasserbyConfig>(DbBase.RobotQQ, "petPasserby");
+            conf.CommandDic = new CommandDictionary();
+            conf.CommandDic.开启宝可梦查询 = new CommandDetail();
+            conf.CommandDic.开启宝可梦查询.Command = "开启";
+            conf.CommandDic.开启宝可梦查询.Role = 8;
+            conf.CommandDic.开启宝可梦查询.DoIM = 3;
+            conf.Save();*/
+            string abc = PluginConfig.GetJosn(DbBase.RobotQQ, "petPasserby");
+            Plugin.OnLog(abc);
+        }
 
         private void listView_clusterList_DoubleClick(object sender, EventArgs e)
         {

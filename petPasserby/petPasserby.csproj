@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="DbHandler.cs" />
     <Compile Include="DbHelper.cs" />
+    <Compile Include="petPasserbyConfig.cs" />
     <Compile Include="petPasserbyPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="settingForm.cs">
