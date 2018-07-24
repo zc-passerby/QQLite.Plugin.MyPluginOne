@@ -9,6 +9,7 @@ using System.Windows.Forms;
 
 using QQLite.Framework;
 using QQLite.Framework.SDK;
+using QQLite.Framework.Tool;
 using QQLite.Framework.Dapper;
 using QQLite.Framework.Entity;
 
@@ -17,13 +18,69 @@ namespace petPasserby
     public partial class settingForm : Form
     {
         public petPasserbyPlugin Plugin { get; set; }
+        /// <summary>
+        /// 插件配置
+        /// </summary>
+        public petPasserbyConfig Config { get; set; }
         public settingForm(petPasserbyPlugin plugin)
         {
             InitializeComponent();
             this.Icon = QQLite.Framework.License.SoftIcon;
             this.Plugin = plugin;
+            initPluginConfigure();
+            initListViewData();
             initClustListData();
             initCmdListData();
+        }
+
+        private void initPluginConfigure()
+        {
+            Config = PluginConfig.Init<petPasserbyConfig>(Plugin);
+            if (Config.CommandDic == null)
+                Config.CommandDic = new CommandDictionary();      
+            if (Config.CommandDic.openPokemonFunc == null)
+            {
+                Config.CommandDic.openPokemonFunc = new CommandDetail();
+                Config.CommandDic.openPokemonFunc.Command = "开启宝可梦功能";
+                Config.CommandDic.openPokemonFunc.Role = 8;
+                Config.CommandDic.openPokemonFunc.DoIM = 5;
+            }
+            if (Config.CommandDic.closePokemonFunc == null)
+            {
+                Config.CommandDic.closePokemonFunc = new CommandDetail();
+                Config.CommandDic.closePokemonFunc.Command = "关闭宝可梦功能";
+                Config.CommandDic.closePokemonFunc.Role = 8;
+                Config.CommandDic.closePokemonFunc.DoIM = 5;
+            }
+            if (Config.CommandDic.queryPokemonInfo == null)
+            {
+                Config.CommandDic.queryPokemonInfo = new CommandDetail();
+                Config.CommandDic.queryPokemonInfo.Command = "查询宝可梦";
+                Config.CommandDic.queryPokemonInfo.Role = 15;
+                Config.CommandDic.queryPokemonInfo.DoIM = 15;
+            }
+            if (Config.LanguageDic == null)
+                Config.LanguageDic = new LanguageDictionary();
+            if (Config.LanguageDic.openPokemonFuncSuccess == null)
+                Config.LanguageDic.openPokemonFuncSuccess = "开启宝可梦功能成功";
+            if (Config.LanguageDic.openPokemonFuncFailure == null)
+                Config.LanguageDic.openPokemonFuncFailure = "开启宝可梦功能失败";
+            if (Config.LanguageDic.closePokemonFuncSuccess == null)
+                Config.LanguageDic.closePokemonFuncSuccess = "关闭宝可梦功能成功";
+            if (Config.LanguageDic.closePokemonFuncFailure == null)
+                Config.LanguageDic.closePokemonFuncFailure = "关闭宝可梦功能失败";
+            if (Config.LanguageDic.openPokemonFuncFailure == null)
+                Config.LanguageDic.queryPokemonInfoSuccess = "//";
+            if (Config.LanguageDic.openPokemonFuncFailure == null)
+                Config.LanguageDic.openPokemonFuncFailure = "//";
+        }
+
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        private void initListViewData()
+        {
+
         }
 
         private void initClustListData()
@@ -77,15 +134,29 @@ namespace petPasserby
 
         private void initCmdListData()
         {
-            /*petPasserbyConfig conf = PluginConfig.Init<petPasserbyConfig>(DbBase.RobotQQ, "petPasserby");
-            conf.CommandDic = new CommandDictionary();
+            //petPasserbyConfig conf = PluginConfig.Init<petPasserbyConfig>(DbBase.RobotQQ, "petPasserby");
+            petPasserbyConfig conf = PluginConfig.Init<petPasserbyConfig>(Plugin);
+            /*conf.CommandDic = new CommandDictionary();
             conf.CommandDic.开启宝可梦查询 = new CommandDetail();
             conf.CommandDic.开启宝可梦查询.Command = "开启";
             conf.CommandDic.开启宝可梦查询.Role = 8;
             conf.CommandDic.开启宝可梦查询.DoIM = 3;
             conf.Save();*/
-            string abc = PluginConfig.GetJosn(DbBase.RobotQQ, "petPasserby");
-            Plugin.OnLog(abc);
+            /*string configJsonStr = PluginConfig.GetJosn(DbBase.RobotQQ, "petPasserby");
+            Plugin.OnLog(configJsonStr);
+            Config = Json.Deserialize<petPasserbyConfig>(configJsonStr);
+                Config.CommandDic.开启宝可梦查询.DoIM = 5;
+                Config.Save();
+            }
+            catch (Exception e)
+            {
+                Plugin.OnLog(e.Message);
+                Plugin.OnLog(e.StackTrace);
+            }*/
+            string configJsonStr = conf.Serialize();
+            Plugin.OnLog(configJsonStr);
+            conf.CommandDic.openPokemonFunc.Command = "关闭";
+            conf.Save();
         }
 
         private void listView_clusterList_DoubleClick(object sender, EventArgs e)
