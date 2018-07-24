@@ -17,6 +17,7 @@ namespace petPasserby
 {
     public class petPasserbyPlugin : QQLite.Framework.SDK.Plugin
     {
+        public settingForm setForm = null;
         public petPasserbyPlugin()
         {
             //插件名
@@ -103,7 +104,10 @@ namespace petPasserby
         /// <returns>null：显示窗口成功，string：错误信息</returns>
         public override string ShowForm()
         {
-            new settingForm(this).ShowDialog();
+            if (setForm == null)
+                setForm = new settingForm(this);
+            setForm.ShowDialog();
+            //new settingForm(this).ShowDialog();
             return null;
         }
 
