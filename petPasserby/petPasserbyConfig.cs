@@ -31,9 +31,46 @@ namespace petPasserby
     /// </summary>
     public class CommandDictionary
     {
-        public CommandDetail 开启宝可梦查询 { get; set; }
-        public CommandDetail 关闭宝可梦查询 { get; set; }
-        public CommandDetail 查询宝可梦 { get; set; }
+        /// <summary>
+        /// 开启宝可梦功能
+        /// </summary>
+        public CommandDetail openPokemonFunc { get; set; }
+        /// <summary>
+        /// 关闭宝可梦功能
+        /// </summary>
+        public CommandDetail closePokemonFunc { get; set; }
+        /// <summary>
+        /// 查询宝可梦信息
+        /// </summary>
+        public CommandDetail queryPokemonInfo { get; set; }
+    }
+
+    public class LanguageDictionary
+    {
+        /// <summary>
+        /// 开启宝可梦功能成功回复语
+        /// </summary>
+        public string openPokemonFuncSuccess { get; set; }
+        /// <summary>
+        /// 开启宝可梦功能失败回复语
+        /// </summary>
+        public string openPokemonFuncFailure { get; set; }
+        /// <summary>
+        /// 关闭宝可梦功能成功回复语
+        /// </summary>
+        public string closePokemonFuncSuccess { get; set; }
+        /// <summary>
+        /// 关闭宝可梦功能失败回复语
+        /// </summary>
+        public string closePokemonFuncFailure { get; set; }
+        /// <summary>
+        /// 查询宝可梦信息成功回复语
+        /// </summary>
+        public string queryPokemonInfoSuccess { get; set; }
+        /// <summary>
+        /// 查询宝可梦信息失败回复语
+        /// </summary>
+        public string queryPokemonInfoFailure { get; set; }
     }
 
     /// <summary>
@@ -42,5 +79,6 @@ namespace petPasserby
     public class petPasserbyConfig : PluginConfig
     {
         public CommandDictionary CommandDic { get; set; }
+        public LanguageDictionary LanguageDic { get; set; }
     }
 }
