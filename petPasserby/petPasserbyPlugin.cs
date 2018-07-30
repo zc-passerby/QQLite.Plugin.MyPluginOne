@@ -97,6 +97,7 @@ namespace petPasserby
         public override string Stop()
         {
             DbHelper.closeConnection();
+            setForm = null;
             return null;
         }
 

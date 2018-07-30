@@ -8,6 +8,23 @@ using QQLite.Framework.SDK;
 namespace petPasserby
 {
     /// <summary>
+    /// 配置文件参数枚举
+    /// </summary>
+    public enum enumConfigList
+    {
+        // 命令语列表
+        CommandDic_openPokemonFunc,
+        CommandDic_closePokemonFunc,
+        CommandDic_queryPokemonInfo,
+        // 回复语列表
+        LanguageDic_openPokemonFuncSuccess,
+        LanguageDic_openPokemonFuncFailure,
+        LanguageDic_closePokemonFuncSuccess,
+        LanguageDic_closePokemonFuncFailure,
+        LanguageDic_queryPokemonInfoSuccess,
+        LanguageDic_queryPokemonInfoFailure,
+    };
+    /// <summary>
     /// 命令配置详情
     /// </summary>
     public class CommandDetail

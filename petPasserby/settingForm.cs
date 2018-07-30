@@ -33,6 +33,66 @@ namespace petPasserby
             initCmdListData();
         }
 
+        /// <summary>
+        /// 根据cmd类型，获取插件命令详情
+        /// </summary>
+        /// <param name="cmdType"></param>
+        /// <returns></returns>
+        private CommandDetail getDefaultPluginCommand(enumConfigList cmdType)
+        {
+            CommandDetail retCmd = new CommandDetail();
+            switch (cmdType)
+            {
+                case enumConfigList.CommandDic_openPokemonFunc:
+                    retCmd.Command = "开启宝可梦功能";
+                    retCmd.Role = 8;
+                    retCmd.DoIM = 5;
+                    break;
+                case enumConfigList.CommandDic_closePokemonFunc:
+                    retCmd.Command = "关闭宝可梦功能";
+                    retCmd.Role = 8;
+                    retCmd.DoIM = 5;
+                    break;
+                case enumConfigList.CommandDic_queryPokemonInfo:
+                    retCmd.Command = "查询宝可梦";
+                    retCmd.Role = 15;
+                    retCmd.DoIM = 15;
+                    break;
+                default:
+                    return null;
+            }
+            return retCmd;
+        }
+
+        private string getDefaultPluginStrParam(enumConfigList cmdType)
+        {
+            string retStr = null;
+            switch (cmdType)
+            {
+                case enumConfigList.LanguageDic_openPokemonFuncSuccess:
+                    retStr = "开启宝可梦功能成功";
+                    break;
+                case enumConfigList.LanguageDic_openPokemonFuncFailure:
+                    retStr = "开启宝可梦功能失败";
+                    break;
+                case enumConfigList.LanguageDic_closePokemonFuncSuccess:
+                    retStr = "关闭宝可梦功能成功";
+                    break;
+                case enumConfigList.LanguageDic_closePokemonFuncFailure:
+                    retStr = "关闭宝可梦功能失败";
+                    break;
+                case enumConfigList.LanguageDic_queryPokemonInfoSuccess:
+                    retStr = "//";
+                    break;
+                case enumConfigList.LanguageDic_queryPokemonInfoFailure:
+                    retStr = "//";
+                    break;
+                default:
+                    break;
+            }
+            return retStr;
+        }
+
         private void initPluginConfigure()
         {
             Config = PluginConfig.Init<petPasserbyConfig>(Plugin);
@@ -40,39 +100,32 @@ namespace petPasserby
                 Config.CommandDic = new CommandDictionary();      
             if (Config.CommandDic.openPokemonFunc == null)
             {
-                Config.CommandDic.openPokemonFunc = new CommandDetail();
-                Config.CommandDic.openPokemonFunc.Command = "开启宝可梦功能";
-                Config.CommandDic.openPokemonFunc.Role = 8;
-                Config.CommandDic.openPokemonFunc.DoIM = 5;
+                Config.CommandDic.openPokemonFunc = getDefaultPluginCommand(enumConfigList.CommandDic_openPokemonFunc);
             }
             if (Config.CommandDic.closePokemonFunc == null)
             {
-                Config.CommandDic.closePokemonFunc = new CommandDetail();
-                Config.CommandDic.closePokemonFunc.Command = "关闭宝可梦功能";
-                Config.CommandDic.closePokemonFunc.Role = 8;
-                Config.CommandDic.closePokemonFunc.DoIM = 5;
+                Config.CommandDic.closePokemonFunc = getDefaultPluginCommand(enumConfigList.CommandDic_closePokemonFunc);
             }
             if (Config.CommandDic.queryPokemonInfo == null)
             {
-                Config.CommandDic.queryPokemonInfo = new CommandDetail();
-                Config.CommandDic.queryPokemonInfo.Command = "查询宝可梦";
-                Config.CommandDic.queryPokemonInfo.Role = 15;
-                Config.CommandDic.queryPokemonInfo.DoIM = 15;
+                Config.CommandDic.queryPokemonInfo = getDefaultPluginCommand(enumConfigList.CommandDic_queryPokemonInfo);
             }
             if (Config.LanguageDic == null)
                 Config.LanguageDic = new LanguageDictionary();
             if (Config.LanguageDic.openPokemonFuncSuccess == null)
-                Config.LanguageDic.openPokemonFuncSuccess = "开启宝可梦功能成功";
+                Config.LanguageDic.openPokemonFuncSuccess = getDefaultPluginStrParam(enumConfigList.LanguageDic_openPokemonFuncSuccess);
             if (Config.LanguageDic.openPokemonFuncFailure == null)
-                Config.LanguageDic.openPokemonFuncFailure = "开启宝可梦功能失败";
+                Config.LanguageDic.openPokemonFuncFailure = getDefaultPluginStrParam(enumConfigList.LanguageDic_openPokemonFuncFailure);
             if (Config.LanguageDic.closePokemonFuncSuccess == null)
-                Config.LanguageDic.closePokemonFuncSuccess = "关闭宝可梦功能成功";
+                Config.LanguageDic.closePokemonFuncSuccess = getDefaultPluginStrParam(enumConfigList.LanguageDic_closePokemonFuncSuccess);
             if (Config.LanguageDic.closePokemonFuncFailure == null)
-                Config.LanguageDic.closePokemonFuncFailure = "关闭宝可梦功能失败";
-            if (Config.LanguageDic.openPokemonFuncFailure == null)
-                Config.LanguageDic.queryPokemonInfoSuccess = "//";
-            if (Config.LanguageDic.openPokemonFuncFailure == null)
-                Config.LanguageDic.openPokemonFuncFailure = "//";
+                Config.LanguageDic.closePokemonFuncFailure = getDefaultPluginStrParam(enumConfigList.LanguageDic_closePokemonFuncFailure);
+            if (Config.LanguageDic.queryPokemonInfoSuccess == null)
+                Config.LanguageDic.queryPokemonInfoSuccess = getDefaultPluginStrParam(enumConfigList.LanguageDic_queryPokemonInfoSuccess);
+            if (Config.LanguageDic.queryPokemonInfoFailure == null)
+                Config.LanguageDic.queryPokemonInfoFailure = getDefaultPluginStrParam(enumConfigList.LanguageDic_queryPokemonInfoFailure);
+
+            Config.Save();
         }
 
         /// <summary>
@@ -134,29 +187,25 @@ namespace petPasserby
 
         private void initCmdListData()
         {
-            //petPasserbyConfig conf = PluginConfig.Init<petPasserbyConfig>(DbBase.RobotQQ, "petPasserby");
-            petPasserbyConfig conf = PluginConfig.Init<petPasserbyConfig>(Plugin);
-            /*conf.CommandDic = new CommandDictionary();
-            conf.CommandDic.开启宝可梦查询 = new CommandDetail();
-            conf.CommandDic.开启宝可梦查询.Command = "开启";
-            conf.CommandDic.开启宝可梦查询.Role = 8;
-            conf.CommandDic.开启宝可梦查询.DoIM = 3;
-            conf.Save();*/
             /*string configJsonStr = PluginConfig.GetJosn(DbBase.RobotQQ, "petPasserby");
             Plugin.OnLog(configJsonStr);
             Config = Json.Deserialize<petPasserbyConfig>(configJsonStr);
-                Config.CommandDic.开启宝可梦查询.DoIM = 5;
-                Config.Save();
-            }
-            catch (Exception e)
-            {
-                Plugin.OnLog(e.Message);
-                Plugin.OnLog(e.StackTrace);
-            }*/
+            Config.CommandDic.开启宝可梦查询.DoIM = 5;
+            Config.Save();
             string configJsonStr = conf.Serialize();
             Plugin.OnLog(configJsonStr);
             conf.CommandDic.openPokemonFunc.Command = "关闭";
-            conf.Save();
+            conf.Save();*/
+            ListViewItem lvi;
+            lvi = new ListViewItem("开启宝可梦功能");
+            lvi.SubItems.Add(Config.CommandDic.openPokemonFunc.Command);
+            lV_cmdList.Items.Add(lvi);
+            lvi = new ListViewItem("关闭宝可梦功能");
+            lvi.SubItems.Add(Config.CommandDic.closePokemonFunc.Command);
+            lV_cmdList.Items.Add(lvi);
+            lvi = new ListViewItem("查询宝可梦");
+            lvi.SubItems.Add(Config.CommandDic.queryPokemonInfo.Command);
+            lV_cmdList.Items.Add(lvi);
         }
 
         private void listView_clusterList_DoubleClick(object sender, EventArgs e)
