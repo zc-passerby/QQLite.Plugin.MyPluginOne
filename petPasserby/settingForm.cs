@@ -28,9 +28,10 @@ namespace petPasserby
             this.Icon = QQLite.Framework.License.SoftIcon;
             this.Plugin = plugin;
             initPluginConfigure();
-            initListViewData();
+            //initListViewData();
             initClustListData();
             initCmdListData();
+            initRespListData();
         }
 
         /// <summary>
@@ -206,6 +207,17 @@ namespace petPasserby
             lvi = new ListViewItem("查询宝可梦");
             lvi.SubItems.Add(Config.CommandDic.queryPokemonInfo.Command);
             lV_cmdList.Items.Add(lvi);
+            gB_modifyCmd.Visible = false;
+        }
+
+        private void initRespListData()
+        {
+            ListViewItem lvi;
+            lvi = new ListViewItem("宝可梦查询");
+            lV_respKey.Items.Add(lvi);
+
+            lV_respValue.Visible = false;
+            gB_respSetting.Visible = false;
         }
 
         private void listView_clusterList_DoubleClick(object sender, EventArgs e)
@@ -244,6 +256,52 @@ namespace petPasserby
                         Plugin.OnLog(clusterId + " add new group info failed...");
                 }
             }
+        }
+
+        private void lV_cmdList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ListViewItem item = lV_cmdList.FocusedItem;
+            string cmdText = item.SubItems[0].Text;
+
+            CommandDetail cmdInfo;
+            string[] example, illustrate;
+            switch (cmdText)
+            {
+                case "开启宝可梦功能":
+                    example = new string[] { "开启宝可梦功能" };
+                    illustrate = new string[] { "开启宝可梦功能" };
+                    cmdInfo = Config.CommandDic.openPokemonFunc;
+                    break;
+                case "关闭宝可梦功能":
+                    example = new string[] { "关闭宝可梦功能" };
+                    illustrate = new string[] { "关闭宝可梦功能" };
+                    cmdInfo = Config.CommandDic.closePokemonFunc;
+                    break;
+                case "查询宝可梦":
+                    example = new string[] { "查询宝可梦 宝可梦ID（1-807）" };
+                    illustrate = new string[] { "查询宝可梦的详细信息" };
+                    cmdInfo = Config.CommandDic.queryPokemonInfo;
+                    break;
+                default:
+                    gB_modifyCmd.Visible = false;
+                    return;
+            }
+            lable_instruct.Text = cmdText;
+            tB_command.Lines = cmdInfo.Command.Split('|');
+            tB_example.Lines = example;
+            tB_illustrate.Lines = illustrate;
+            cB_members.Checked = (cmdInfo.Role & 1) == 1;
+            cB_clusterManager.Checked = ((cmdInfo.Role >> 1) & 1) == 1;
+            cB_clusterOwner.Checked = ((cmdInfo.Role >> 2) & 1) == 1;
+            cB_softManager.Checked = ((cmdInfo.Role >> 3) & 1) == 1;
+            cB_ChargeQQ.Checked = ((cmdInfo.Role >> 5) & 1) == 1;
+
+            cB_friend.Checked = (cmdInfo.DoIM & 1) == 1;
+            cB_tempConv.Checked = ((cmdInfo.DoIM >> 1) & 1) == 1;
+            cB_cluster.Checked = ((cmdInfo.DoIM >> 2) & 1) == 1;
+            cB_discuss.Checked = ((cmdInfo.DoIM >> 3) & 1) == 1;
+
+            gB_modifyCmd.Visible = true;
         }
     }
 }

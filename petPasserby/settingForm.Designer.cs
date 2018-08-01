@@ -56,7 +56,7 @@ namespace petPasserby
             this.cB_discuss = new System.Windows.Forms.CheckBox();
             this.cB_members = new System.Windows.Forms.CheckBox();
             this.tB_illustrate = new System.Windows.Forms.TextBox();
-            this.tb_example = new System.Windows.Forms.TextBox();
+            this.tB_example = new System.Windows.Forms.TextBox();
             this.tB_command = new System.Windows.Forms.TextBox();
             this.lable_instruct = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -192,7 +192,7 @@ namespace petPasserby
             this.gB_modifyCmd.Controls.Add(this.cB_discuss);
             this.gB_modifyCmd.Controls.Add(this.cB_members);
             this.gB_modifyCmd.Controls.Add(this.tB_illustrate);
-            this.gB_modifyCmd.Controls.Add(this.tb_example);
+            this.gB_modifyCmd.Controls.Add(this.tB_example);
             this.gB_modifyCmd.Controls.Add(this.tB_command);
             this.gB_modifyCmd.Controls.Add(this.lable_instruct);
             this.gB_modifyCmd.Controls.Add(this.label6);
@@ -324,13 +324,13 @@ namespace petPasserby
             this.tB_illustrate.Size = new System.Drawing.Size(289, 48);
             this.tB_illustrate.TabIndex = 9;
             // 
-            // tb_example
+            // tB_example
             // 
-            this.tb_example.Location = new System.Drawing.Point(74, 135);
-            this.tb_example.Multiline = true;
-            this.tb_example.Name = "tb_example";
-            this.tb_example.Size = new System.Drawing.Size(289, 49);
-            this.tb_example.TabIndex = 8;
+            this.tB_example.Location = new System.Drawing.Point(74, 135);
+            this.tB_example.Multiline = true;
+            this.tB_example.Name = "tB_example";
+            this.tB_example.Size = new System.Drawing.Size(289, 49);
+            this.tB_example.TabIndex = 8;
             // 
             // tB_command
             // 
@@ -417,6 +417,7 @@ namespace petPasserby
             this.lV_cmdList.TabIndex = 0;
             this.lV_cmdList.UseCompatibleStateImageBehavior = false;
             this.lV_cmdList.View = System.Windows.Forms.View.Details;
+            this.lV_cmdList.SelectedIndexChanged += new System.EventHandler(this.lV_cmdList_SelectedIndexChanged);
             // 
             // tab_RespSetting
             // 
@@ -562,7 +563,7 @@ namespace petPasserby
         private CheckBox cB_discuss;
         private CheckBox cB_members;
         private TextBox tB_illustrate;
-        private TextBox tb_example;
+        private TextBox tB_example;
         private TextBox tB_command;
         private Label lable_instruct;
         private Label label6;
