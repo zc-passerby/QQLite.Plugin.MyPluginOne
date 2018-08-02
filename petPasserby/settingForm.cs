@@ -46,13 +46,13 @@ namespace petPasserby
             {
                 case enumConfigList.CommandDic_openPokemonFunc:
                     retCmd.Command = "开启宝可梦功能";
-                    retCmd.Role = 8;
-                    retCmd.DoIM = 5;
+                    retCmd.Role = 14;
+                    retCmd.DoIM = 15;
                     break;
                 case enumConfigList.CommandDic_closePokemonFunc:
                     retCmd.Command = "关闭宝可梦功能";
-                    retCmd.Role = 8;
-                    retCmd.DoIM = 5;
+                    retCmd.Role = 14;
+                    retCmd.DoIM = 15;
                     break;
                 case enumConfigList.CommandDic_queryPokemonInfo:
                     retCmd.Command = "查询宝可梦";
@@ -220,6 +220,45 @@ namespace petPasserby
             gB_respSetting.Visible = false;
         }
 
+        private bool setCommandDetail(string cmdText, CommandDetail cmdInfo)
+        {
+            string[] example, illustrate;
+            switch (cmdText)
+            {
+                case "开启宝可梦功能":
+                    example = new string[] { "开启宝可梦功能" };
+                    illustrate = new string[] { "开启宝可梦功能" };
+                    break;
+                case "关闭宝可梦功能":
+                    example = new string[] { "关闭宝可梦功能" };
+                    illustrate = new string[] { "关闭宝可梦功能" };
+                    break;
+                case "查询宝可梦":
+                    example = new string[] { "查询宝可梦 宝可梦ID(1-807)/宝可梦名字", "查询宝可梦 123", "查询宝可梦 妙蛙种子" };
+                    illustrate = new string[] { "查询宝可梦的详细信息" };
+                    break;
+                default:
+                    gB_modifyCmd.Visible = false;
+                    return false;
+            }
+            lable_instruct.Text = cmdText;
+            tB_command.Lines = cmdInfo.Command.Split('|');
+            tB_example.Lines = example;
+            tB_illustrate.Lines = illustrate;
+            cB_members.Checked = (cmdInfo.Role & 1) == 1;
+            cB_clusterManager.Checked = ((cmdInfo.Role >> 1) & 1) == 1;
+            cB_clusterOwner.Checked = ((cmdInfo.Role >> 2) & 1) == 1;
+            cB_softManager.Checked = ((cmdInfo.Role >> 3) & 1) == 1;
+            cB_ChargeQQ.Checked = ((cmdInfo.Role >> 5) & 1) == 1;
+
+            cB_friend.Checked = (cmdInfo.DoIM & 1) == 1;
+            cB_tempConv.Checked = ((cmdInfo.DoIM >> 1) & 1) == 1;
+            cB_cluster.Checked = ((cmdInfo.DoIM >> 2) & 1) == 1;
+            cB_discuss.Checked = ((cmdInfo.DoIM >> 3) & 1) == 1;
+
+            return true;
+        }
+
         private void listView_clusterList_DoubleClick(object sender, EventArgs e)
         {
             ListViewItem item = listView_clusterList.FocusedItem;
@@ -257,51 +296,122 @@ namespace petPasserby
                 }
             }
         }
-
+        
         private void lV_cmdList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ListViewItem item = lV_cmdList.FocusedItem;
+            ListViewItem item = lV_cmdList.SelectedItems[0];
             string cmdText = item.SubItems[0].Text;
 
             CommandDetail cmdInfo;
-            string[] example, illustrate;
             switch (cmdText)
             {
                 case "开启宝可梦功能":
-                    example = new string[] { "开启宝可梦功能" };
-                    illustrate = new string[] { "开启宝可梦功能" };
                     cmdInfo = Config.CommandDic.openPokemonFunc;
                     break;
                 case "关闭宝可梦功能":
-                    example = new string[] { "关闭宝可梦功能" };
-                    illustrate = new string[] { "关闭宝可梦功能" };
                     cmdInfo = Config.CommandDic.closePokemonFunc;
                     break;
                 case "查询宝可梦":
-                    example = new string[] { "查询宝可梦 宝可梦ID（1-807）" };
-                    illustrate = new string[] { "查询宝可梦的详细信息" };
                     cmdInfo = Config.CommandDic.queryPokemonInfo;
                     break;
                 default:
                     gB_modifyCmd.Visible = false;
                     return;
             }
-            lable_instruct.Text = cmdText;
-            tB_command.Lines = cmdInfo.Command.Split('|');
-            tB_example.Lines = example;
-            tB_illustrate.Lines = illustrate;
-            cB_members.Checked = (cmdInfo.Role & 1) == 1;
-            cB_clusterManager.Checked = ((cmdInfo.Role >> 1) & 1) == 1;
-            cB_clusterOwner.Checked = ((cmdInfo.Role >> 2) & 1) == 1;
-            cB_softManager.Checked = ((cmdInfo.Role >> 3) & 1) == 1;
-            cB_ChargeQQ.Checked = ((cmdInfo.Role >> 5) & 1) == 1;
+            if(setCommandDetail(cmdText, cmdInfo))
+                gB_modifyCmd.Visible = true;
+        }
 
-            cB_friend.Checked = (cmdInfo.DoIM & 1) == 1;
-            cB_tempConv.Checked = ((cmdInfo.DoIM >> 1) & 1) == 1;
-            cB_cluster.Checked = ((cmdInfo.DoIM >> 2) & 1) == 1;
-            cB_discuss.Checked = ((cmdInfo.DoIM >> 3) & 1) == 1;
+        private void button_cmdDefault_Click(object sender, EventArgs e)
+        {
+            ListViewItem item = lV_cmdList.SelectedItems[0];
+            string cmdText = item.SubItems[0].Text;
 
-            gB_modifyCmd.Visible = true;
+            CommandDetail cmdInfo;
+            switch (cmdText)
+            {
+                case "开启宝可梦功能":
+                    cmdInfo = getDefaultPluginCommand(enumConfigList.CommandDic_openPokemonFunc);
+                    break;
+                case "关闭宝可梦功能":
+                    cmdInfo = getDefaultPluginCommand(enumConfigList.CommandDic_closePokemonFunc);
+                    break;
+                case "查询宝可梦":
+                    cmdInfo = getDefaultPluginCommand(enumConfigList.CommandDic_queryPokemonInfo);
+                    break;
+                default:
+                    gB_modifyCmd.Visible = false;
+                    return;
+            }
+            setCommandDetail(cmdText, cmdInfo);
+        }
+
+        private void lV_cmdList_MouseDown(object sender, MouseEventArgs e)
+        {
+            // 获取鼠标点击位置的item
+            ListViewItem item = lV_cmdList.GetItemAt(e.X, e.Y);
+            if (item == null)
+                gB_modifyCmd.Visible = false;
+        }
+
+        private void button_cmdSave_Click(object sender, EventArgs e)
+        {
+            ListViewItem item = lV_cmdList.SelectedItems[0];
+            string cmdText = item.SubItems[0].Text;
+
+            int DoIM = 0, Role = 0;
+            string Command = "";
+            foreach(string cmd in tB_command.Lines)
+            {
+                if (Command == "")
+                    Command = cmd;
+                else
+                    Command = Command + "|" + cmd;
+            }
+
+            if (cB_members.Checked)
+                Role += 1;
+            if (cB_clusterManager.Checked)
+                Role += (1 << 1);
+            if (cB_clusterOwner.Checked)
+                Role += (1 << 2);
+            if (cB_softManager.Checked)
+                Role += (1 << 3);
+            if (cB_ChargeQQ.Checked)
+                Role += (1 << 5);
+
+            if (cB_friend.Checked)
+                DoIM += 1;
+            if (cB_tempConv.Checked)
+                DoIM += (1 << 1);
+            if (cB_cluster.Checked)
+                DoIM += (1 << 2);
+            if (cB_discuss.Checked)
+                DoIM += (1 << 3);
+            switch (cmdText)
+            {
+                case "开启宝可梦功能":
+                    Config.CommandDic.openPokemonFunc.Command = Command;
+                    Config.CommandDic.openPokemonFunc.Role = Role;
+                    Config.CommandDic.openPokemonFunc.DoIM = DoIM;
+                    break;
+                case "关闭宝可梦功能":
+                    Config.CommandDic.closePokemonFunc.Command = Command;
+                    Config.CommandDic.closePokemonFunc.Role = Role;
+                    Config.CommandDic.closePokemonFunc.DoIM = DoIM;
+                    break;
+                case "查询宝可梦":
+                    Config.CommandDic.queryPokemonInfo.Command = Command;
+                    Config.CommandDic.queryPokemonInfo.Role = Role;
+                    Config.CommandDic.queryPokemonInfo.DoIM = DoIM;
+                    break;
+                default:
+                    gB_modifyCmd.Visible = false;
+                    return;
+            }
+            item.SubItems[1].Text = Command;
+
+            Config.Save();
         }
     }
 }

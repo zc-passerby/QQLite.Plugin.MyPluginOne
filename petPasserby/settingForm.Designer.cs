@@ -216,6 +216,7 @@ namespace petPasserby
             this.button_cmdSave.TabIndex = 29;
             this.button_cmdSave.Text = "保存";
             this.button_cmdSave.UseVisualStyleBackColor = true;
+            this.button_cmdSave.Click += new System.EventHandler(this.button_cmdSave_Click);
             // 
             // button_cmdDefault
             // 
@@ -225,6 +226,7 @@ namespace petPasserby
             this.button_cmdDefault.TabIndex = 28;
             this.button_cmdDefault.Text = "默认值";
             this.button_cmdDefault.UseVisualStyleBackColor = true;
+            this.button_cmdDefault.Click += new System.EventHandler(this.button_cmdDefault_Click);
             // 
             // cB_softManager
             // 
@@ -321,6 +323,7 @@ namespace petPasserby
             this.tB_illustrate.Location = new System.Drawing.Point(74, 190);
             this.tB_illustrate.Multiline = true;
             this.tB_illustrate.Name = "tB_illustrate";
+            this.tB_illustrate.ReadOnly = true;
             this.tB_illustrate.Size = new System.Drawing.Size(289, 48);
             this.tB_illustrate.TabIndex = 9;
             // 
@@ -329,6 +332,7 @@ namespace petPasserby
             this.tB_example.Location = new System.Drawing.Point(74, 135);
             this.tB_example.Multiline = true;
             this.tB_example.Name = "tB_example";
+            this.tB_example.ReadOnly = true;
             this.tB_example.Size = new System.Drawing.Size(289, 49);
             this.tB_example.TabIndex = 8;
             // 
@@ -412,12 +416,14 @@ namespace petPasserby
             this.lV_cmdList.FullRowSelect = true;
             this.lV_cmdList.GridLines = true;
             this.lV_cmdList.Location = new System.Drawing.Point(16, 19);
+            this.lV_cmdList.MultiSelect = false;
             this.lV_cmdList.Name = "lV_cmdList";
             this.lV_cmdList.Size = new System.Drawing.Size(332, 385);
             this.lV_cmdList.TabIndex = 0;
             this.lV_cmdList.UseCompatibleStateImageBehavior = false;
             this.lV_cmdList.View = System.Windows.Forms.View.Details;
             this.lV_cmdList.SelectedIndexChanged += new System.EventHandler(this.lV_cmdList_SelectedIndexChanged);
+            this.lV_cmdList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lV_cmdList_MouseDown);
             // 
             // tab_RespSetting
             // 
