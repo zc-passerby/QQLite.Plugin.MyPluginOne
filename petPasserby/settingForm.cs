@@ -88,6 +88,15 @@ namespace petPasserby
                 case enumConfigList.LanguageDic_queryPokemonInfoFailure:
                     retStr = "//";
                     break;
+                case enumConfigList.LanguageDic_queryPokemonInfoNotOpen:
+                    retStr = "宝可梦查询功能还没开，请联系管理员开启！";
+                    break;
+                case enumConfigList.LanguageDic_queryPokemonInfoIdFailure:
+                    retStr = "你输入的全国图鉴编号不存在，请重新查询！";
+                    break;
+                case enumConfigList.LanguageDic_queryPokemonInfoPokemonNameFailure:
+                    retStr = "你输入的宝可梦名字不存在，请重新输入！";
+                    break;
                 default:
                     break;
             }
@@ -125,6 +134,12 @@ namespace petPasserby
                 Config.LanguageDic.queryPokemonInfoSuccess = getDefaultPluginStrParam(enumConfigList.LanguageDic_queryPokemonInfoSuccess);
             if (Config.LanguageDic.queryPokemonInfoFailure == null)
                 Config.LanguageDic.queryPokemonInfoFailure = getDefaultPluginStrParam(enumConfigList.LanguageDic_queryPokemonInfoFailure);
+            if (Config.LanguageDic.queryPokemonInfoNotOpen == null)
+                Config.LanguageDic.queryPokemonInfoNotOpen = getDefaultPluginStrParam(enumConfigList.LanguageDic_queryPokemonInfoNotOpen);
+            if (Config.LanguageDic.queryPokemonInfoIdFailure == null)
+                Config.LanguageDic.queryPokemonInfoIdFailure = getDefaultPluginStrParam(enumConfigList.LanguageDic_queryPokemonInfoIdFailure);
+            if (Config.LanguageDic.queryPokemonInfoPokemonNameFailure == null)
+                Config.LanguageDic.queryPokemonInfoPokemonNameFailure = getDefaultPluginStrParam(enumConfigList.LanguageDic_queryPokemonInfoPokemonNameFailure);
 
             Config.Save();
         }
@@ -213,7 +228,14 @@ namespace petPasserby
         private void initRespListData()
         {
             ListViewItem lvi;
-            lvi = new ListViewItem("宝可梦查询");
+
+            lvi = new ListViewItem("开启宝可梦功能");
+            lV_respKey.Items.Add(lvi);
+
+            lvi = new ListViewItem("关闭宝可梦功能");
+            lV_respKey.Items.Add(lvi);
+
+            lvi = new ListViewItem("宝可梦信息查询");
             lV_respKey.Items.Add(lvi);
 
             lV_respValue.Visible = false;
@@ -234,7 +256,7 @@ namespace petPasserby
                     illustrate = new string[] { "关闭宝可梦功能" };
                     break;
                 case "查询宝可梦":
-                    example = new string[] { "查询宝可梦 宝可梦ID(1-807)/宝可梦名字", "查询宝可梦 123", "查询宝可梦 妙蛙种子" };
+                    example = new string[] { "查询宝可梦 全国图鉴编号(1-807)/宝可梦名字", "查询宝可梦 123", "查询宝可梦 妙蛙种子" };
                     illustrate = new string[] { "查询宝可梦的详细信息" };
                     break;
                 default:
@@ -257,6 +279,18 @@ namespace petPasserby
             cB_discuss.Checked = ((cmdInfo.DoIM >> 3) & 1) == 1;
 
             return true;
+        }
+
+        private void fillRespValueList(string[] valueList)
+        {
+            lV_respValue.Items.Clear();
+            if (valueList.Length == 0)
+                return;
+            foreach(string value in valueList)
+            {
+                ListViewItem lvi = new ListViewItem(value);
+                lV_respValue.Items.Add(lvi);
+            }
         }
 
         private void listView_clusterList_DoubleClick(object sender, EventArgs e)
@@ -412,6 +446,59 @@ namespace petPasserby
             item.SubItems[1].Text = Command;
 
             Config.Save();
+        }
+
+        private void lV_respKey_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ListViewItem item = lV_respKey.SelectedItems[0];
+            string cmdText = item.SubItems[0].Text;
+
+            string[] respValueList;
+
+            switch (cmdText)
+            {
+                case "开启宝可梦功能":
+                    respValueList = new string[]
+                    {
+                        "开启宝可梦功能_成功",
+                        "开启宝可梦功能_失败"
+                    };
+                    break;
+                case "关闭宝可梦功能":
+                    respValueList = new string[]
+                    {
+                        "关闭宝可梦功能_成功",
+                        "关闭宝可梦功能_失败"
+                    };
+                    break;
+                case "宝可梦信息查询":
+                    respValueList = new string[]
+                    {
+                        "宝可梦信息查询成功",
+                        "宝可梦信息查询失败",
+                        "宝可梦全国图鉴编号不正确",
+                        "宝可梦名称不正确",
+                        "宝可梦查询功能未开启"
+                    };
+                    break;
+                default:
+                    lV_respValue.Visible = false;
+                    gB_respSetting.Visible = false;
+                    return;
+            }
+            fillRespValueList(respValueList);
+            lV_respValue.Visible = true;
+        }
+
+        private void lV_respKey_MouseDown(object sender, MouseEventArgs e)
+        {
+            // 获取鼠标点击位置的item
+            ListViewItem item = lV_respKey.GetItemAt(e.X, e.Y);
+            if (item == null)
+            {
+                lV_respValue.Visible = false;
+                gB_respSetting.Visible = false;
+            }
         }
     }
 }

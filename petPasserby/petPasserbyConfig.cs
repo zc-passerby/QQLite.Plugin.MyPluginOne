@@ -23,6 +23,9 @@ namespace petPasserby
         LanguageDic_closePokemonFuncFailure,
         LanguageDic_queryPokemonInfoSuccess,
         LanguageDic_queryPokemonInfoFailure,
+        LanguageDic_queryPokemonInfoNotOpen,
+        LanguageDic_queryPokemonInfoIdFailure,
+        LanguageDic_queryPokemonInfoPokemonNameFailure,
     };
     /// <summary>
     /// 命令配置详情
@@ -84,10 +87,25 @@ namespace petPasserby
         /// 查询宝可梦信息成功回复语
         /// </summary>
         public string queryPokemonInfoSuccess { get; set; }
+
         /// <summary>
         /// 查询宝可梦信息失败回复语
         /// </summary>
         public string queryPokemonInfoFailure { get; set; }
+        /// <summary>
+        /// 查询宝可梦信息失败回复语 -- id不存在
+        /// </summary>
+        public string queryPokemonInfoIdFailure { get; set; }
+
+        /// <summary>
+        /// 查询宝可梦信息失败回复语 -- 宝可梦名字不存在
+        /// </summary>
+        public string queryPokemonInfoPokemonNameFailure { get; set; }
+
+        /// <summary>
+        /// 查询宝可梦-宝可梦功能未开
+        /// </summary>
+        public string queryPokemonInfoNotOpen { get; set; }
     }
 
     /// <summary>

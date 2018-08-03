@@ -524,11 +524,14 @@ namespace petPasserby
             this.lV_respKey.FullRowSelect = true;
             this.lV_respKey.GridLines = true;
             this.lV_respKey.Location = new System.Drawing.Point(12, 12);
+            this.lV_respKey.MultiSelect = false;
             this.lV_respKey.Name = "lV_respKey";
             this.lV_respKey.Size = new System.Drawing.Size(145, 398);
             this.lV_respKey.TabIndex = 0;
             this.lV_respKey.UseCompatibleStateImageBehavior = false;
             this.lV_respKey.View = System.Windows.Forms.View.Details;
+            this.lV_respKey.SelectedIndexChanged += new System.EventHandler(this.lV_respKey_SelectedIndexChanged);
+            this.lV_respKey.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lV_respKey_MouseDown);
             // 
             // settingForm
             // 
