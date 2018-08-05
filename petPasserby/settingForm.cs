@@ -28,10 +28,10 @@ namespace petPasserby
             this.Icon = QQLite.Framework.License.SoftIcon;
             this.Plugin = plugin;
             initPluginConfigure();
-            //initListViewData();
             initClustListData();
             initCmdListData();
             initRespListData();
+            initResParamsData();
         }
 
         /// <summary>
@@ -147,9 +147,44 @@ namespace petPasserby
         /// <summary>
         /// 初始化
         /// </summary>
-        private void initListViewData()
+        private void initResParamsData()
         {
+            ListViewItem lvi;
+            lvi = new ListViewItem("[@QQ]");
+            lvi.SubItems.Add("主动@发送者");
+            lV_respParams.Items.Add(lvi);
 
+            lvi = new ListViewItem("[发送QQ]");
+            lvi.SubItems.Add("发送者的QQ号");
+            lV_respParams.Items.Add(lvi);
+
+            lvi = new ListViewItem("[发送昵称]");
+            lvi.SubItems.Add("发送者的昵称");
+            lV_respParams.Items.Add(lvi);
+
+            lvi = new ListViewItem("[群昵称]");
+            lvi.SubItems.Add("发送者的群昵称");
+            lV_respParams.Items.Add(lvi);
+
+            lvi = new ListViewItem("[机器人QQ]");
+            lvi.SubItems.Add("机器人QQ");
+            lV_respParams.Items.Add(lvi);
+
+            lvi = new ListViewItem("[机器人昵称]");
+            lvi.SubItems.Add("机器人昵称");
+            lV_respParams.Items.Add(lvi);
+
+            lvi = new ListViewItem("[随机表情]");
+            lvi.SubItems.Add("随机表情");
+            lV_respParams.Items.Add(lvi);
+
+            lvi = new ListViewItem("[时间]");
+            lvi.SubItems.Add("当前时间（2018-08-01 00:00:00）");
+            lV_respParams.Items.Add(lvi);
+
+            lvi = new ListViewItem("-----------------------");
+            lvi.SubItems.Add("-----------------------");
+            lV_respParams.Items.Add(lvi);
         }
 
         private void initClustListData()
@@ -499,6 +534,57 @@ namespace petPasserby
                 lV_respValue.Visible = false;
                 gB_respSetting.Visible = false;
             }
+        }
+
+        private void lV_respValue_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ListViewItem item = lV_respValue.SelectedItems[0];
+            string cmdText = item.SubItems[0].Text;
+
+            tB_respMessage.Text = "";
+            string respMessage = "";
+            switch (cmdText)
+            {
+                case "开启宝可梦功能_成功":
+                    respMessage = Config.LanguageDic.openPokemonFuncSuccess;
+                    break;
+                case "开启宝可梦功能_失败":
+                    respMessage = Config.LanguageDic.openPokemonFuncFailure;
+                    break;
+                case "关闭宝可梦功能_成功":
+                    respMessage = Config.LanguageDic.closePokemonFuncSuccess;
+                    break;
+                case "关闭宝可梦功能_失败":
+                    respMessage = Config.LanguageDic.closePokemonFuncFailure;
+                    break;
+                case "宝可梦信息查询成功":
+                    respMessage = Config.LanguageDic.queryPokemonInfoSuccess;
+                    break;
+                case "宝可梦信息查询失败":
+                    respMessage = Config.LanguageDic.queryPokemonInfoFailure;
+                    break;
+                case "宝可梦全国图鉴编号不正确":
+                    respMessage = Config.LanguageDic.queryPokemonInfoIdFailure;
+                    break;
+                case "宝可梦名称不正确":
+                    respMessage = Config.LanguageDic.queryPokemonInfoPokemonNameFailure;
+                    break;
+                case "宝可梦查询功能未开启":
+                    respMessage = Config.LanguageDic.queryPokemonInfoNotOpen;
+                    break;
+                default:
+                    gB_respSetting.Visible = false;
+                    return;
+            }
+            tB_respMessage.Text = respMessage;
+            gB_respSetting.Visible = true;
+        }
+
+        private void lV_respValue_MouseDown(object sender, MouseEventArgs e)
+        {
+            ListViewItem item = lV_respValue.GetItemAt(e.X, e.Y);
+            if (item == null)
+                gB_respSetting.Visible = false;
         }
     }
 }
