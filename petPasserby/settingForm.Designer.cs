@@ -120,12 +120,12 @@ namespace petPasserby
             // chRespParamsParam
             // 
             this.chRespParamsParam.Text = "参数";
-            this.chRespParamsParam.Width = 210;
+            this.chRespParamsParam.Width = 175;
             // 
             // chRespParamsIllustrate
             // 
             this.chRespParamsIllustrate.Text = "说明";
-            this.chRespParamsIllustrate.Width = 210;
+            this.chRespParamsIllustrate.Width = 239;
             // 
             // tabControl1
             // 

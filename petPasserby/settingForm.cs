@@ -185,6 +185,70 @@ namespace petPasserby
             lvi = new ListViewItem("-----------------------");
             lvi.SubItems.Add("-----------------------");
             lV_respParams.Items.Add(lvi);
+
+            lvi = new ListViewItem("[Sn]");
+            lvi.SubItems.Add("全国图鉴编号");
+            lV_respParams.Items.Add(lvi);
+
+            lvi = new ListViewItem("[SnJson]");
+            lvi.SubItems.Add("各地区图鉴编号（Json格式）");
+            lV_respParams.Items.Add(lvi);
+
+            lvi = new ListViewItem("[NameZh]");
+            lvi.SubItems.Add("宝可梦中文名");
+            lV_respParams.Items.Add(lvi);
+
+            lvi = new ListViewItem("[NameJp]");
+            lvi.SubItems.Add("宝可梦日文名");
+            lV_respParams.Items.Add(lvi);
+
+            lvi = new ListViewItem("[NameEn]");
+            lvi.SubItems.Add("宝可梦英文名");
+            lV_respParams.Items.Add(lvi);
+
+            lvi = new ListViewItem("[ImgUrl]");
+            lvi.SubItems.Add("宝可梦图片地址");
+            lV_respParams.Items.Add(lvi);
+
+            lvi = new ListViewItem("[Attribute]");
+            lvi.SubItems.Add("宝可梦属性（多属性会以|分隔）");
+            lV_respParams.Items.Add(lvi);
+
+            lvi = new ListViewItem("[Class]");
+            lvi.SubItems.Add("宝可梦分类");
+            lV_respParams.Items.Add(lvi);
+
+            lvi = new ListViewItem("[Feature]");
+            lvi.SubItems.Add("宝可梦特性");
+            lV_respParams.Items.Add(lvi);
+
+            lvi = new ListViewItem("[HideFeature]");
+            lvi.SubItems.Add("宝可梦隐藏特性");
+            lV_respParams.Items.Add(lvi);
+
+            lvi = new ListViewItem("[HP]");
+            lvi.SubItems.Add("宝可梦种族值：HP");
+            lV_respParams.Items.Add(lvi);
+
+            lvi = new ListViewItem("[Attack]");
+            lvi.SubItems.Add("宝可梦种族值：攻击");
+            lV_respParams.Items.Add(lvi);
+
+            lvi = new ListViewItem("[Defense]");
+            lvi.SubItems.Add("宝可梦种族值：防御");
+            lV_respParams.Items.Add(lvi);
+
+            lvi = new ListViewItem("[SpecialAttack]");
+            lvi.SubItems.Add("宝可梦种族值：特攻");
+            lV_respParams.Items.Add(lvi);
+
+            lvi = new ListViewItem("[SpecialDefense]");
+            lvi.SubItems.Add("宝可梦种族值：特防");
+            lV_respParams.Items.Add(lvi);
+
+            lvi = new ListViewItem("[Speed]");
+            lvi.SubItems.Add("宝可梦种族值：速度");
+            lV_respParams.Items.Add(lvi);
         }
 
         private void initClustListData()
