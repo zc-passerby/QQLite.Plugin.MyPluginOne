@@ -459,6 +459,7 @@ namespace petPasserby
             this.button_respSave.TabIndex = 4;
             this.button_respSave.Text = "保存";
             this.button_respSave.UseVisualStyleBackColor = true;
+            this.button_respSave.Click += new System.EventHandler(this.button_respSave_Click);
             // 
             // button_respDefault
             // 

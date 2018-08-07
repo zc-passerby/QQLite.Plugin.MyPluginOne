@@ -273,7 +273,7 @@ namespace petPasserby
             if (Config.LanguageDic.queryPokemonInfoPokemonNameFailure == null)
                 Config.LanguageDic.queryPokemonInfoPokemonNameFailure = getDefaultPluginStrParam(queryPokemonInfoPokemonNameFailure);
 
-            Config.Save();
+            //Config.Save();
         }
 
         /// <summary>
@@ -282,6 +282,10 @@ namespace petPasserby
         private void initResParamsData()
         {
             ListViewItem lvi;
+            lvi = new ListViewItem("[@全体成员]");
+            lvi.SubItems.Add("@全体成员");
+            lV_respParams.Items.Add(lvi);
+
             lvi = new ListViewItem("[@QQ]");
             lvi.SubItems.Add("主动@发送者");
             lV_respParams.Items.Add(lvi);
@@ -748,6 +752,15 @@ namespace petPasserby
             //tB_respMessage.Focus();
             //tB_respMessage.SelectionStart = start;
             //tB_respMessage.SelectionLength = paramStr.Length;
+        }
+
+        private void button_respSave_Click(object sender, EventArgs e)
+        {
+            ListViewItem item = lV_respValue.SelectedItems[0];
+            string cmdText = item.SubItems[0].Text;
+            string paramStr = tB_respMessage.Text.ToString();
+            if (SetPluginConfigStrParam(cmdText, paramStr))
+                Config.Save();
         }
     }
 }
