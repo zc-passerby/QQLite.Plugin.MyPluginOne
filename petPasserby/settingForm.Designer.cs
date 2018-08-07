@@ -502,6 +502,7 @@ namespace petPasserby
             this.lV_respParams.TabIndex = 0;
             this.lV_respParams.UseCompatibleStateImageBehavior = false;
             this.lV_respParams.View = System.Windows.Forms.View.Details;
+            this.lV_respParams.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lV_respParams_MouseDoubleClick);
             // 
             // lV_respValue
             // 

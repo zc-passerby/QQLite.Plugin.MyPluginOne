@@ -733,5 +733,21 @@ namespace petPasserby
                 gB_respSetting.Visible = true;
             }
         }
+
+        private void lV_respParams_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            ListViewItem item = lV_respParams.SelectedItems[0];
+            string paramStr = item.SubItems[0].Text;
+
+            if (paramStr == "" || paramStr == null)
+                return;
+
+            int start = tB_respMessage.SelectionStart;
+            tB_respMessage.Text = tB_respMessage.Text.Insert(start, paramStr);
+            tB_respMessage.SelectionStart = start + paramStr.Length;
+            //tB_respMessage.Focus();
+            //tB_respMessage.SelectionStart = start;
+            //tB_respMessage.SelectionLength = paramStr.Length;
+        }
     }
 }
