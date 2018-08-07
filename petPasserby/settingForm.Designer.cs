@@ -468,6 +468,7 @@ namespace petPasserby
             this.button_respDefault.TabIndex = 3;
             this.button_respDefault.Text = "默认值";
             this.button_respDefault.UseVisualStyleBackColor = true;
+            this.button_respDefault.Click += new System.EventHandler(this.button_respDefault_Click);
             // 
             // label7
             // 
