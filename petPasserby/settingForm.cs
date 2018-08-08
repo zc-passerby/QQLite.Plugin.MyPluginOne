@@ -283,7 +283,7 @@ namespace petPasserby
         {
             ListViewItem lvi;
             lvi = new ListViewItem("[@全体成员]");
-            lvi.SubItems.Add("@全体成员");
+            lvi.SubItems.Add("@全体成员(直接使用，后续不用替换了)");
             lV_respParams.Items.Add(lvi);
 
             lvi = new ListViewItem("[@QQ]");
@@ -298,8 +298,16 @@ namespace petPasserby
             lvi.SubItems.Add("发送者的昵称");
             lV_respParams.Items.Add(lvi);
 
-            lvi = new ListViewItem("[群昵称]");
+            lvi = new ListViewItem("[QQ]");
+            lvi.SubItems.Add("QQ号");
+            lV_respParams.Items.Add(lvi);
+
+            lvi = new ListViewItem("[昵称]");
             lvi.SubItems.Add("发送者的群昵称");
+            lV_respParams.Items.Add(lvi);
+
+            lvi = new ListViewItem("[头像]");
+            lvi.SubItems.Add("头像");
             lV_respParams.Items.Add(lvi);
 
             lvi = new ListViewItem("[机器人QQ]");
@@ -315,7 +323,7 @@ namespace petPasserby
             lV_respParams.Items.Add(lvi);
 
             lvi = new ListViewItem("[时间]");
-            lvi.SubItems.Add("当前时间（2018-08-01 00:00:00）");
+            lvi.SubItems.Add("当前时间(2018-08-01 00:00:00)");
             lV_respParams.Items.Add(lvi);
 
             lvi = new ListViewItem("-----------------------");
@@ -327,7 +335,7 @@ namespace petPasserby
             lV_respParams.Items.Add(lvi);
 
             lvi = new ListViewItem("[SnJson]");
-            lvi.SubItems.Add("各地区图鉴编号（Json格式）");
+            lvi.SubItems.Add("各地区图鉴编号(Json格式)");
             lV_respParams.Items.Add(lvi);
 
             lvi = new ListViewItem("[NameZh]");

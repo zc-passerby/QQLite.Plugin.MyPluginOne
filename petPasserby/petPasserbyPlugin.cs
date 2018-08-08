@@ -138,7 +138,7 @@ namespace petPasserby
             }
             //string messageDisplay = e.SendTime.ToString("yyyy-MM-dd HH:mm:ss:ms") + " " + e.SenderName + "[@QQ](" + e.Sender.ToString() + ")说：" + e.Message;
             //OnLog(messageDisplay);
-            //string abc = "[@450343225]ヾ(≧O≦)〃嗷~，你说话了！";
+            //string abc = "[@QQ][头像]\r\n[QQ]，[昵称]，[发送QQ]，[发送昵称]，[机器人QQ]，[机器人昵称]，[随机表情]，[时间]\r\n[var][发送QQ]|[随机表情]|[时间][/var]\r\nヾ(≧O≦)〃嗷~，你说话了！";
             //abc = PluginExtension.ReplaceVariable(e, abc, true);
             //OnLog(abc);
             //SendExtension.SendClusterIM(Client, e.ClusterInfo.ClusterId, abc);
@@ -184,9 +184,17 @@ namespace petPasserby
                     SendExtension.SendClusterIM(Client, e.ClusterInfo.ClusterId, PluginExtension.ReplaceVariable(e, sendStr, true));
                 }
                 */
+                /* dataRow的新建方法
+                DataTable dt1 = new DataTable();
+                dt1.Columns.Add("AAA");
+                dt1.Columns.Add(new DataColumn("BBB", typeof(int)));
+                DataRow dr1 = dt1.NewRow();
+                dr1["AAA"] = "test";
+                dr1["BBB"] = 1;
+                */
                 /* 使用DataTable */
                 DataTable dt = DbHelper.ExecuteQuery(queryString);
-                foreach(DataRow row in dt.Rows)
+                foreach (DataRow row in dt.Rows)
                 {
                     string Sn = row["Sn"].ToString();                           //全国图鉴
                     string NameZh = row["NameZh"].ToString();                   //中文名
@@ -221,7 +229,35 @@ namespace petPasserby
         #endregion
 
         #region 功能处理
-        
+        /// <summary>
+        /// 替换宝可梦相关的参数
+        /// </summary>
+        /// <param name="strSrc"></param>
+        /// <param name="varRow"></param>
+        /// <returns></returns>
+        public string ReplacePokemonVariable(string strSrc, DataRow varRow)
+        {
+            string strRet = strSrc;
+            DataColumnCollection varDtCol = varRow.Table.Columns;
+
+            strRet = strRet.Replace("[Sn]", varDtCol.Contains("Sn") ? varRow["Sn"].ToString() : "");
+            strRet = strRet.Replace("[NameZh]", varDtCol.Contains("NameZh") ? varRow["NameZh"].ToString() : "");
+            strRet = strRet.Replace("[NameJp]", varDtCol.Contains("NameJp") ? varRow["NameJp"].ToString() : "");
+            strRet = strRet.Replace("[NameEn]", varDtCol.Contains("NameEn")? varRow["NameEn"].ToString() : "");
+            strRet = strRet.Replace("[ImgUrl]", varDtCol.Contains("ImgUrl") ? varRow["ImgUrl"].ToString() : "");
+            strRet = strRet.Replace("[Attribute]", varDtCol.Contains("Attribute") ? varRow["Attribute"].ToString() : "");
+            strRet = strRet.Replace("[Class]", varDtCol.Contains("Class") ? varRow["Class"].ToString() : "");
+            strRet = strRet.Replace("[Feature]", varDtCol.Contains("Feature") ? varRow["Feature"].ToString() : "");
+            strRet = strRet.Replace("[HideFeature]", varDtCol.Contains("HideFeature") ? varRow["HideFeature"].ToString() : "");
+            strRet = strRet.Replace("[HP]", varDtCol.Contains("HP") ? varRow["HP"].ToString() : "");
+            strRet = strRet.Replace("[Attack]", varDtCol.Contains("Attack") ? varRow["Attack"].ToString() : "");
+            strRet = strRet.Replace("[Defense]", varDtCol.Contains("Defense") ? varRow["Defense"].ToString() : "");
+            strRet = strRet.Replace("[SpecialAttack]", varDtCol.Contains("SpecialAttack") ? varRow["SpecialAttack"].ToString() : "");
+            strRet = strRet.Replace("[SpecialDefense]", varDtCol.Contains("SpecialDefense") ? varRow["SpecialDefense"].ToString() : "");
+            strRet = strRet.Replace("[Speed]", varDtCol.Contains("Speed") ? varRow["Speed"].ToString() : "");
+
+            return strRet;
+        }
         #endregion
     }
 }
