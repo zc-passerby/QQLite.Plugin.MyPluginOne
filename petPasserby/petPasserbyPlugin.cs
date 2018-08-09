@@ -216,11 +216,11 @@ namespace petPasserby
                     string SpecialDefense = row["SpecialDefense"].ToString();   //种族值特防
                     string Speed = row["Speed"].ToString();                     //种族值速度
                     string sendStr = "[Image]{0}[/Image]\n" +
-                        "宝可梦名字：{1} {2} {3}\n" +
-                        "全国图鉴编号：{4}\n属性：{5}\n分类：{6}\n" +
-                        "特性：{7}\n隐藏特性：{8}\n" +
-                        "种族值：\n" +
-                        "HP:{9} 攻击:{10} 防御:{11} 特攻:{12} 特防:{13} 速度:{14}";
+                        "[Face:E2AD90]宝可梦名字：{1} {2} {3}\n" +
+                        "[Face:E2AD90]全国图鉴编号：{4}\n属性：{5}\n分类：{6}\n" +
+                        "[Face:E2AD90]特性：{7}\n隐藏特性：{8}\n" +
+                        "[Face:E2AD90]种族值：\n" +
+                        "[Face:E2AD90]HP:{9} 攻击:{10} 防御:{11} 特攻:{12} 特防:{13} 速度:{14}";
                     sendStr = string.Format(sendStr, imgUrl, NameZh, NameJp, NameEn, Sn,
                                             Attribute, pokeClass, Feature, HideFeature,
                                             HP, Attack, Defense, SpecialAttack, SpecialDefense, Speed);
