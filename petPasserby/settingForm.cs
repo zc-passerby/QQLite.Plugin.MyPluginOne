@@ -41,6 +41,7 @@ namespace petPasserby
             InitializeComponent();
             this.Icon = QQLite.Framework.License.SoftIcon;
             this.Plugin = plugin;
+            this.Config = plugin.Config;
             initPluginConfigure();
             initClustListData();
             initCmdListData();
@@ -237,7 +238,7 @@ namespace petPasserby
 
         private void initPluginConfigure()
         {
-            Config = PluginConfig.Init<petPasserbyConfig>(Plugin);
+            //Config = PluginConfig.Init<petPasserbyConfig>(Plugin);
             if (Config.CommandDic == null)
                 Config.CommandDic = new CommandDictionary();      
             if (Config.CommandDic.openPokemonFunc == null)

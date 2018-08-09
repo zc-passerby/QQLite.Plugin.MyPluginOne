@@ -18,6 +18,7 @@ namespace petPasserby
     public class petPasserbyPlugin : QQLite.Framework.SDK.Plugin
     {
         public settingForm setForm = null;
+        public petPasserbyConfig Config { get; set; }
         public petPasserbyPlugin()
         {
             //插件名
@@ -70,6 +71,8 @@ namespace petPasserby
                 OnLog("机器人授权已到期，请联系作者！");
                 return "机器人授权已到期,请联系作者：" + AuthorQQ.ToString();
             }
+
+            this.Config = PluginConfig.Init<petPasserbyConfig>(this);
 
             //PluginConfig pc = PluginConfig.Init<PluginConfig>(this, "abc");
             //pc.IsEncrypt = true;
@@ -196,6 +199,7 @@ namespace petPasserby
                 DataTable dt = DbHelper.ExecuteQuery(queryString);
                 foreach (DataRow row in dt.Rows)
                 {
+                    /*
                     string Sn = row["Sn"].ToString();                           //全国图鉴
                     string NameZh = row["NameZh"].ToString();                   //中文名
                     string NameJp = row["NameJp"].ToString();                   //日文名
@@ -220,6 +224,8 @@ namespace petPasserby
                     sendStr = string.Format(sendStr, imgUrl, NameZh, NameJp, NameEn, Sn,
                                             Attribute, pokeClass, Feature, HideFeature,
                                             HP, Attack, Defense, SpecialAttack, SpecialDefense, Speed);
+                    */
+                    string sendStr = ReplacePokemonVariable(Config.LanguageDic.queryPokemonInfoSuccess, row);
                     SendExtension.SendClusterIM(Client, e.ClusterInfo.ClusterId, PluginExtension.ReplaceVariable(e, sendStr, true));
                 }
                 e.Cancel = true;
