@@ -1,8 +1,8 @@
 ﻿using System.Windows.Forms;
 
-namespace petPasserby
+namespace PasserbyPluginNS
 {
-    partial class settingForm
+    partial class SettingForm
     {
         /// <summary>
         /// Required designer variable.
@@ -158,7 +158,7 @@ namespace petPasserby
             this.chClusterSwitch});
             this.listView_clusterList.FullRowSelect = true;
             this.listView_clusterList.GridLines = true;
-            this.listView_clusterList.Location = new System.Drawing.Point(6, 6);
+            this.listView_clusterList.Location = new System.Drawing.Point(7, 6);
             this.listView_clusterList.Name = "listView_clusterList";
             this.listView_clusterList.Size = new System.Drawing.Size(240, 411);
             this.listView_clusterList.TabIndex = 0;
@@ -539,13 +539,13 @@ namespace petPasserby
             this.lV_respKey.SelectedIndexChanged += new System.EventHandler(this.lV_respKey_SelectedIndexChanged);
             this.lV_respKey.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lV_respKey_MouseDown);
             // 
-            // settingForm
+            // SettingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(797, 473);
             this.Controls.Add(this.tabControl1);
-            this.Name = "settingForm";
+            this.Name = "SettingForm";
             this.Text = "插件设置";
             this.tabControl1.ResumeLayout(false);
             this.tab_ClusterList.ResumeLayout(false);

@@ -13,9 +13,9 @@ using QQLite.Framework.Tool;
 using QQLite.Framework.Dapper;
 using QQLite.Framework.Entity;
 
-namespace petPasserby
+namespace PasserbyPluginNS
 {
-    public partial class settingForm : Form
+    public partial class SettingForm : Form
     {
         #region 指令定义
         public const string openPokemonFunc = "开启宝可梦功能";
@@ -31,12 +31,12 @@ namespace petPasserby
         public const string queryPokemonInfoPokemonNameFailure = "宝可梦名称不正确";
         public const string queryPokemonInfoNotOpen = "宝可梦查询功能未开启";
         #endregion
-        public petPasserbyPlugin Plugin { get; set; }
+        public PasserbyPlugin Plugin { get; set; }
         /// <summary>
         /// 插件配置
         /// </summary>
-        public petPasserbyConfig Config { get; set; }
-        public settingForm(petPasserbyPlugin plugin)
+        public PasserbyConfig Config { get; set; }
+        public SettingForm(PasserbyPlugin plugin)
         {
             InitializeComponent();
             this.Icon = QQLite.Framework.License.SoftIcon;
@@ -238,7 +238,7 @@ namespace petPasserby
 
         private void initPluginConfigure()
         {
-            //Config = PluginConfig.Init<petPasserbyConfig>(Plugin);
+            //Config = PluginConfig.Init<PasserbyConfig>(Plugin);
             if (Config.CommandDic == null)
                 Config.CommandDic = new CommandDictionary();      
             if (Config.CommandDic.openPokemonFunc == null)
@@ -400,8 +400,8 @@ namespace petPasserby
         {
             ListViewItem lvi;
             //先添加0（好友设置）和10000（默认群设置）
-            string friendSwitch = DbHandler.getClusterIsEnabled("0");
-            string defaultSwitch = DbHandler.getClusterIsEnabled("10000");
+            string friendSwitch = SQLiteHandler.getClusterIsEnabled("0");
+            string defaultSwitch = SQLiteHandler.getClusterIsEnabled("10000");
             lvi = new ListViewItem("0");
             lvi.SubItems.Add("好友设置");
             if (friendSwitch == "0")
@@ -430,7 +430,7 @@ namespace petPasserby
             {
                 ClusterInfo clusterInfo = kv.Value;
                 string clusterId = kv.Key.ToString();
-                string clusterSwitch = DbHandler.getClusterIsEnabled(clusterId);
+                string clusterSwitch = SQLiteHandler.getClusterIsEnabled(clusterId);
                 lvi = new ListViewItem(clusterId);
                 lvi.SubItems.Add(clusterInfo.Name);
                 if(clusterSwitch == "1")
@@ -447,9 +447,9 @@ namespace petPasserby
 
         private void initCmdListData()
         {
-            /*string configJsonStr = PluginConfig.GetJosn(DbBase.RobotQQ, "petPasserby");
+            /*string configJsonStr = PluginConfig.GetJosn(DbBase.RobotQQ, "Passerby");
             Plugin.OnLog(configJsonStr);
-            Config = Json.Deserialize<petPasserbyConfig>(configJsonStr);
+            Config = Json.Deserialize<PasserbyConfig>(configJsonStr);
             Config.CommandDic.开启宝可梦查询.DoIM = 5;
             Config.Save();
             string configJsonStr = conf.Serialize();
@@ -541,17 +541,17 @@ namespace petPasserby
         {
             ListViewItem item = listView_clusterList.FocusedItem;
             string clusterId = item.SubItems[0].Text;
-            string clusterSwitch = DbHandler.getClusterIsEnabled(clusterId);
+            string clusterSwitch = SQLiteHandler.getClusterIsEnabled(clusterId);
             if(clusterSwitch == "0")
             {
-                if (DbHandler.setClusterIsEnabled(clusterId, 1))
+                if (SQLiteHandler.setClusterIsEnabled(clusterId, 1))
                     item.SubItems[2].Text = "开";
                 else
                     Plugin.OnLog(clusterId + " setClusterIsEnabled failed...");
             }
             else if(clusterSwitch == "1")
             {
-                if (DbHandler.setClusterIsEnabled(clusterId, 0))
+                if (SQLiteHandler.setClusterIsEnabled(clusterId, 0))
                     item.SubItems[2].Text = "关";
                 else
                     Plugin.OnLog(clusterId + " setClusterIsEnabled failed...");
@@ -560,14 +560,14 @@ namespace petPasserby
             {
                 if (clusterId == "0" || clusterId == "10000")
                 {
-                    if(DbHandler.addNewGroupInfo(clusterId, 0))
+                    if(SQLiteHandler.addNewGroupInfo(clusterId, 0))
                         item.SubItems[2].Text = "关";
                     else
                         Plugin.OnLog(clusterId + " add new group info failed...");
                 }
                 else
                 {
-                    if (DbHandler.addNewGroupInfo(clusterId, 1))
+                    if (SQLiteHandler.addNewGroupInfo(clusterId, 1))
                         item.SubItems[2].Text = "开";
                     else
                         Plugin.OnLog(clusterId + " add new group info failed...");

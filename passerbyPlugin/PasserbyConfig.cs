@@ -5,8 +5,31 @@ using System.Text;
 
 using QQLite.Framework.SDK;
 
-namespace petPasserby
+namespace PasserbyPluginNS
 {
+    public class CommonDefine
+    {
+        #region 指令定义
+        public const string openPokemonFunc = "开启宝可梦功能";
+        public const string closePokemonFunc = "关闭宝可梦功能";
+        public const string queryPokemonInfo = "宝可梦信息查询";
+        public const string queryPokemonSpeciesStrength = "宝可梦种族值查询";
+        public const string queryPokemonEvolvePath = "宝可梦进化路径查询";
+
+        public const string openPokemonFuncSuccess = "开启宝可梦功能_成功";
+        public const string openPokemonFuncFailure = "开启宝可梦功能_失败";
+        public const string closePokemonFuncSuccess = "关闭宝可梦功能_成功";
+        public const string closePokemonFuncFailure = "关闭宝可梦功能_失败";
+        public const string queryPokemonInfoSuccess = "宝可梦信息查询_成功";
+        public const string queryPokemonInfoFailure = "宝可梦信息查询_失败";
+        public const string queryPokemonSpeciesStrengthSuccess = "宝可梦种族值查询_成功";
+        public const string queryPokemonSpeciesStrengthFailure = "宝可梦种族值查询_失败";
+        public const string queryPokemonInfoIdFailure = "宝可梦全国图鉴编号不正确";
+        public const string queryPokemonInfoPokemonNameFailure = "宝可梦名称不正确";
+        public const string queryPokemonInfoNotOpen = "宝可梦查询功能未开启";
+        #endregion
+    }
+
     /// <summary>
     /// 命令配置详情
     /// </summary>
@@ -91,9 +114,13 @@ namespace petPasserby
     /// <summary>
     /// 插件配置类
     /// </summary>
-    public class petPasserbyConfig : PluginConfig
+    public class PasserbyConfig : PluginConfig
     {
-        public CommandDictionary CommandDic { get; set; }
-        public LanguageDictionary LanguageDic { get; set; }
+        //public CommandDictionary CommandDic { get; set; }
+        //public LanguageDictionary LanguageDic { get; set; }
+        // 命令字典
+        public Dictionary<string, CommandDetail> CommandDic { get; set; }
+        // 回复语字典
+        public Dictionary<string, string> LanguageDic { get; set; }
     }
 }
