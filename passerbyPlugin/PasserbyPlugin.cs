@@ -222,10 +222,10 @@ namespace PasserbyPluginNS
             strRet = strRet.Replace("[NameJp]", varDtCol.Contains("NameJp") ? varRow["NameJp"].ToString() : "");
             strRet = strRet.Replace("[NameEn]", varDtCol.Contains("NameEn") ? varRow["NameEn"].ToString() : "");
             strRet = strRet.Replace("[ImgUrl]", varDtCol.Contains("ImgUrl") ? varRow["ImgUrl"].ToString() : "");
-            strRet = strRet.Replace("[Attribute]", varDtCol.Contains("Attribute") ? varRow["Attribute"].ToString() : "");
-            strRet = strRet.Replace("[Class]", varDtCol.Contains("Class") ? varRow["Class"].ToString() : "");
-            strRet = strRet.Replace("[Feature]", varDtCol.Contains("Feature") ? varRow["Feature"].ToString() : "");
-            strRet = strRet.Replace("[HideFeature]", varDtCol.Contains("HideFeature") ? varRow["HideFeature"].ToString() : "");
+            strRet = strRet.Replace("[Type]", varDtCol.Contains("Type") ? varRow["Type"].ToString() : "");
+            strRet = strRet.Replace("[Category]", varDtCol.Contains("Category") ? varRow["Category"].ToString() : "");
+            strRet = strRet.Replace("[Ability]", varDtCol.Contains("Ability") ? varRow["Ability"].ToString() : "");
+            strRet = strRet.Replace("[HiddenAbility]", varDtCol.Contains("HiddenAbility") ? varRow["HiddenAbility"].ToString() : "");
             strRet = strRet.Replace("[100Experience]", varDtCol.Contains("100Experience") ? varRow["100Experience"].ToString() : "");
             strRet = strRet.Replace("[Height]", varDtCol.Contains("Height") ? varRow["Height"].ToString() : "");
             strRet = strRet.Replace("[Weight]", varDtCol.Contains("Weight") ? varRow["Weight"].ToString() : "");

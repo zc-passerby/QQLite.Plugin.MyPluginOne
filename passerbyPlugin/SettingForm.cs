@@ -276,19 +276,19 @@ namespace PasserbyPluginNS
             lvi.SubItems.Add("宝可梦图片地址");
             lV_respParams.Items.Add(lvi);
 
-            lvi = new ListViewItem("[Attribute]");
+            lvi = new ListViewItem("[Type]");
             lvi.SubItems.Add("宝可梦属性（多属性会以|分隔）");
             lV_respParams.Items.Add(lvi);
 
-            lvi = new ListViewItem("[Class]");
+            lvi = new ListViewItem("[Category]");
             lvi.SubItems.Add("宝可梦分类");
             lV_respParams.Items.Add(lvi);
 
-            lvi = new ListViewItem("[Feature]");
+            lvi = new ListViewItem("[Ability]");
             lvi.SubItems.Add("宝可梦特性");
             lV_respParams.Items.Add(lvi);
 
-            lvi = new ListViewItem("[HideFeature]");
+            lvi = new ListViewItem("[HiddenAbility]");
             lvi.SubItems.Add("宝可梦隐藏特性");
             lV_respParams.Items.Add(lvi);
 
