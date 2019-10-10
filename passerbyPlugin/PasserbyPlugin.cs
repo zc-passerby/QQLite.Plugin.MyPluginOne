@@ -6,7 +6,9 @@ using QQLite.Framework.Entity;
 using QQLite.Framework.Event;
 using QQLite.Framework.SDK;
 using System;
+using System.IO;
 using System.Data;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace PasserbyPluginNS
@@ -18,6 +20,13 @@ namespace PasserbyPluginNS
 
         // 插件配置
         public PasserbyConfig Config { get; set; }
+
+        // 宝可梦图片列表
+        public List<string> evolveImgList = null;
+        public List<string> megaEvolveImgList = null;
+        public List<string> transformImgList = null;
+        public List<string> speciesStrengthImgList = null;
+        public List<string> typeOppositeImgList = null;
 
         public PasserbyPlugin()
         {
@@ -79,6 +88,15 @@ namespace PasserbyPluginNS
         {
             // 初始化插件配置
             this.Config = PluginConfig.Init<PasserbyConfig>(this, "PasserbyPlugin");
+            if (this.Config.PokemonImageBaseDir == "" || this.Config.PokemonImageBaseDir.IsEmpty() || this.Config.PokemonImageBaseDir.IsNull())
+                this.Config.PokemonImageBaseDir = "D:\\PokemonImages";
+            OnLog("pokemonDir:" + this.Config.PokemonImageBaseDir);
+            // 获取宝可梦文件列表
+            this.evolveImgList = getPokemonImgList(this.Config.PokemonImageBaseDir + "\\evolveImg");
+            this.megaEvolveImgList = getPokemonImgList(this.Config.PokemonImageBaseDir + "\\megaEvolveImg");
+            this.speciesStrengthImgList = getPokemonImgList(this.Config.PokemonImageBaseDir + "\\speciesStrength");
+            this.transformImgList = getPokemonImgList(this.Config.PokemonImageBaseDir + "\\transformImg");
+            this.typeOppositeImgList = getPokemonImgList(this.Config.PokemonImageBaseDir + "\\typeOpposite");
             // sqlite连接字符串
             string dataSource = "QQ\\" + DbBase.RobotQQ.ToString() + "\\DataBase\\52Poke.db3";
             SQLiteHelper.setConnectionString(dataSource);
@@ -148,7 +166,6 @@ namespace PasserbyPluginNS
             // 初版直接写死：查 种族值 宝可梦
             if (message.StartsWith("查"))
             {
-
                 Regex r = new Regex("查");
                 string msgContent = r.Replace(message, "");
                 int pokemonId;
@@ -193,15 +210,52 @@ namespace PasserbyPluginNS
             }
             else if (message.StartsWith("种族值"))
             {
-                string sendStr = "我暂时还不知道，等后续升级吧，你可以先问[@1580562089]";
+                Regex r = new Regex("种族值");
+                string msgContent = r.Replace(message, "");
+                string sendStr = "";
+                foreach (string imgName in this.speciesStrengthImgList)
+                    if (-1 != imgName.IndexOf(msgContent))
+                        sendStr = sendStr + imgName + "：[Image]" + string.Format("{0}\\speciesStrength\\{1}", this.Config.PokemonImageBaseDir, imgName) + "[/Image]\r\n";
+                if (sendStr == "")
+                    sendStr = "[@QQ]请确定该宝可梦是否存在！";
+                else
+                    sendStr = "[@QQ]\r\n" + sendStr;
                 SendExtension.SendClusterIM(Client, eventArgs.ClusterInfo.ClusterId, PluginExtension.ReplaceVariable(eventArgs, sendStr, true));
                 eventArgs.Cancel = true;
                 return;
-
             }
             else if (message.StartsWith("进化"))
             {
-                string sendStr = "我暂时还不知道，等后续升级吧，你可以先问[@1580562089]";
+                Regex r = new Regex("进化");
+                string msgContent = r.Replace(message, "");
+                string sendStr = "";
+                if (File.Exists(string.Format("{0}\\evolveImg\\{1}.png", this.Config.PokemonImageBaseDir, msgContent)))
+                    sendStr = sendStr + "[Image]" + string.Format("{0}\\evolveImg\\{1}.png", this.Config.PokemonImageBaseDir, msgContent) + "[/Image]\r\n";
+                if (File.Exists(string.Format("{0}\\megaEvolveImg\\{1}.png", this.Config.PokemonImageBaseDir, msgContent)))
+                    sendStr = sendStr + "超级进化：[Image]" + string.Format("{0}\\megaEvolveImg\\{1}.png", this.Config.PokemonImageBaseDir, msgContent) + "[/Image]\r\n";
+                if (File.Exists(string.Format("{0}\\transformImg\\{1}.png", this.Config.PokemonImageBaseDir, msgContent)))
+                    sendStr = sendStr + "形态变化：[Image]" + string.Format("{0}\\transformImg\\{1}.png", this.Config.PokemonImageBaseDir, msgContent) + "[/Image]\r\n";
+                if (sendStr == "")
+                    sendStr = "[@QQ]请确定该宝可梦是否存在！";
+                else
+                    sendStr = "[@QQ]\r\n" + sendStr;
+                SendExtension.SendClusterIM(Client, eventArgs.ClusterInfo.ClusterId, PluginExtension.ReplaceVariable(eventArgs, sendStr, true));
+                eventArgs.Cancel = true;
+                return;
+            }
+            else if (message.StartsWith("弱点"))
+            {
+                Regex r = new Regex("弱点");
+                string msgContent = r.Replace(message, "");
+                string sendStr = "";
+                if (File.Exists(string.Format("{0}\\typeOpposite\\{1}_反转对战.png", this.Config.PokemonImageBaseDir, msgContent)))
+                    sendStr = sendStr + "攻击：[Image]" + string.Format("{0}\\typeOpposite\\{1}_反转对战.png", this.Config.PokemonImageBaseDir, msgContent) + "[/Image]\r\n";
+                if (File.Exists(string.Format("{0}\\typeOpposite\\{1}_一般.png", this.Config.PokemonImageBaseDir, msgContent)))
+                    sendStr = sendStr + "防御：[Image]" + string.Format("{0}\\typeOpposite\\{1}_一般.png", this.Config.PokemonImageBaseDir, msgContent) + "[/Image]\r\n";
+                if (sendStr == "")
+                    sendStr = "[@QQ]请确定该宝可梦是否存在！";
+                else
+                    sendStr = "[@QQ]\r\n" + sendStr;
                 SendExtension.SendClusterIM(Client, eventArgs.ClusterInfo.ClusterId, PluginExtension.ReplaceVariable(eventArgs, sendStr, true));
                 eventArgs.Cancel = true;
                 return;
@@ -210,6 +264,15 @@ namespace PasserbyPluginNS
         #endregion
 
         #region 功能函数
+        private List<string> getPokemonImgList(string directoryPath)
+        {
+            List<string> fileList = new List<string>();
+            DirectoryInfo directory = new DirectoryInfo(directoryPath);
+            foreach(FileInfo file in directory.GetFiles())
+                fileList.Add(file.Name);
+            return fileList;
+        }
+
         private string ReplacePokemonVariable(string strSrc, DataRow varRow)
         {
             JObject jObject;
@@ -225,7 +288,7 @@ namespace PasserbyPluginNS
             strRet = strRet.Replace("[Type]", varDtCol.Contains("Type") ? varRow["Type"].ToString() : "");
             strRet = strRet.Replace("[Category]", varDtCol.Contains("Category") ? varRow["Category"].ToString() : "");
             strRet = strRet.Replace("[Ability]", varDtCol.Contains("Ability") ? varRow["Ability"].ToString() : "");
-            strRet = strRet.Replace("[HiddenAbility]", varDtCol.Contains("HiddenAbility") ? varRow["HiddenAbility"].ToString() : "");
+            strRet = strRet.Replace("[HiddenAbility]", varDtCol.Contains("HiddenAbility") ? varRow["HiddenAbility"].ToString() : "无");
             strRet = strRet.Replace("[100Experience]", varDtCol.Contains("100Experience") ? varRow["100Experience"].ToString() : "");
             strRet = strRet.Replace("[Height]", varDtCol.Contains("Height") ? varRow["Height"].ToString() : "");
             strRet = strRet.Replace("[Weight]", varDtCol.Contains("Weight") ? varRow["Weight"].ToString() : "");
@@ -243,7 +306,8 @@ namespace PasserbyPluginNS
             strRet = strRet.Replace("[SpecialDefense]", varDtCol.Contains("SpecialDefense") ? varRow["SpecialDefense"].ToString() : "");
             strRet = strRet.Replace("[Speed]", varDtCol.Contains("Speed") ? varRow["Speed"].ToString() : "");
             */
-
+            // 
+            
 
             // 解析地区图鉴编号
             varString = "";

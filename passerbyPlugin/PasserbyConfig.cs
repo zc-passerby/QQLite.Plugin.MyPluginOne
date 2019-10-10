@@ -116,8 +116,8 @@ namespace PasserbyPluginNS
     /// </summary>
     public class PasserbyConfig : PluginConfig
     {
-        //public CommandDictionary CommandDic { get; set; }
-        //public LanguageDictionary LanguageDic { get; set; }
+        // 宝可梦图片存放路径，目前先写死，修改时可以在配置文件中修改然后重新加载插件
+        public string PokemonImageBaseDir { get; set; }
         // 命令字典
         public Dictionary<string, CommandDetail> CommandDic { get; set; }
         // 回复语字典

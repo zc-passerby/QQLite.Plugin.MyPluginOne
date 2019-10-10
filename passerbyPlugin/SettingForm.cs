@@ -359,6 +359,14 @@ namespace PasserbyPluginNS
             lvi = new ListViewItem("[Speed]");
             lvi.SubItems.Add("宝可梦种族值：速度");
             lV_respParams.Items.Add(lvi);
+
+            lvi = new ListViewItem("[speciesStrength]");
+            lvi.SubItems.Add("宝可梦种族值");
+            lV_respParams.Items.Add(lvi);
+
+            lvi = new ListViewItem("[typeOpposite]");
+            lvi.SubItems.Add("宝可梦弱点");
+            lV_respParams.Items.Add(lvi);
         }
 
         private void initClustListData()
