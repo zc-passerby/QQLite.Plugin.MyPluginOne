@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
+﻿using System.Data;
 
 namespace PasserbyPluginNS
 {
@@ -14,7 +10,7 @@ namespace PasserbyPluginNS
             string SelectSql = "select IsEnabled from GroupConfig where GroupId='{0}';";
             SelectSql = string.Format(SelectSql, GroupId);
             object isEnabled = SQLiteHelper.GetSingle(SelectSql);
-            if(isEnabled != null)
+            if (isEnabled != null)
             {
                 retStr = isEnabled.ToString();
             }
@@ -38,7 +34,7 @@ namespace PasserbyPluginNS
             bool bRet = false;
             string insertSql = "insert into GroupConfig (GroupId,IsEnabled) values('{0}',{1});";
             insertSql = string.Format(insertSql, GroupId, isEnabled);
-            if(SQLiteHelper.ExecuteSql(insertSql) == 1)
+            if (SQLiteHelper.ExecuteSql(insertSql) == 1)
             {
                 bRet = true;
             }
@@ -54,7 +50,10 @@ namespace PasserbyPluginNS
 
         public static DataSet getPokemonInfoByName(string pokemonName)
         {
-            string sqlString = string.Format("select * from PokemonBaseInfo where NameZh='{0}' or NameZh like '{1}【%';", pokemonName, pokemonName);
+            pokemonName = pokemonName.ToLower();
+            string sqlString = "select * from PokemonBaseInfo where NameZh='" + pokemonName + "' or NameZh like '" + pokemonName
+                + "【%' or NameJp='" + pokemonName + "' or NameJp like '" + pokemonName + "【%' or NameEn='" + pokemonName
+                + "' or NameEn like '" + pokemonName + "【%';";
             DataSet ds = SQLiteHelper.Query(sqlString);
             return ds;
         }

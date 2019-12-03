@@ -37,7 +37,7 @@ namespace PasserbyPluginNS
             // 插件说明
             this.Note = "嘻嘻嘻";
             // 插件版本
-            this.Version = new Version("2019.9.29.1330");
+            this.Version = new Version("2019.12.03.1100");
             // 插件发布地址
             this.PluginUrl = "http://zc-passerby.com";
             // 插件开发者
@@ -177,11 +177,11 @@ namespace PasserbyPluginNS
                         msgContent = "00" + pokemonId.ToString();
                     else if (pokemonId >= 10 && pokemonId < 100)
                         msgContent = "0" + pokemonId.ToString();
-                    else if (pokemonId >= 100 && pokemonId <= 809)
+                    else if (pokemonId >= 100 && pokemonId <= 890)
                         msgContent = pokemonId.ToString();
                     else
                     {
-                        sendStr = "宝可梦编号不存在[1-809]";
+                        sendStr = "宝可梦编号不存在[1-890]";
                         sendQueryFailureClusterMsg(sendStr, CommonDefine.queryPokemonInfoIdFailure, eventArgs);
                         return;
                     }
@@ -193,7 +193,7 @@ namespace PasserbyPluginNS
                 }
                 if (ds.Tables.Count == 0 || (ds.Tables.Count == 1 && ds.Tables[0].Rows.Count == 0))
                 {
-                    sendStr = "宝可梦编号不存在[1-809]";
+                    sendStr = "宝可梦编号不存在[1-890]";
                     sendQueryFailureClusterMsg(sendStr, CommonDefine.queryPokemonInfoFailure, eventArgs);
                     return;
                 }
